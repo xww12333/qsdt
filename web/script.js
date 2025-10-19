@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTheoryReader();
     initializeVerificationCards();
     initializeScrollEffects();
+    initializeThreeJS();
+    initializeContentManager();
 });
 
 // 导航功能
@@ -35,6 +37,12 @@ function initializeNavigation() {
         });
     });
 }
+
+// Three.js动画系统
+let animationSystem = null;
+
+// 内容管理系统
+let contentManager = null;
 
 // 动画系统初始化
 function initializeAnimations() {
@@ -478,12 +486,224 @@ function debounce(func, wait) {
     };
 }
 
+// Three.js初始化
+function initializeThreeJS() {
+    const animationCanvas = document.getElementById('animationCanvas');
+    if (animationCanvas && window.QSDTAnimationSystem) {
+        // 移除占位符
+        const placeholder = animationCanvas.querySelector('.animation-placeholder');
+        if (placeholder) {
+            placeholder.remove();
+        }
+        
+        // 初始化动画系统
+        animationSystem = new QSDTAnimationSystem(animationCanvas);
+        
+        // 设置默认动画
+        const animationSelect = document.getElementById('animationSelect');
+        if (animationSelect) {
+            animationSelect.dispatchEvent(new Event('change'));
+        }
+    }
+}
+
+// 内容管理系统初始化
+function initializeContentManager() {
+    if (window.QSDTContentManager) {
+        contentManager = new QSDTContentManager();
+        
+        // 设置理论阅读功能
+        setupTheoryReader();
+        
+        // 设置搜索功能
+        setupSearchFunction();
+    }
+}
+
+// 设置理论阅读器
+function setupTheoryReader() {
+    const theoryContent = document.querySelector('.theory-content');
+    const theoryNav = document.querySelector('.theory-nav');
+    
+    if (theoryContent && theoryNav) {
+        // 导航点击事件
+        theoryNav.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A') {
+                e.preventDefault();
+                const contentId = e.target.getAttribute('href').substring(1);
+                loadTheoryContent(contentId);
+            }
+        });
+        
+        // 默认加载主理论
+        loadTheoryContent('main-theory');
+    }
+}
+
+// 加载理论内容
+function loadTheoryContent(contentId) {
+    if (!contentManager) return;
+    
+    const theoryContent = document.querySelector('.theory-content');
+    if (theoryContent) {
+        contentManager.renderContent(contentId, theoryContent);
+        
+        // 更新导航状态
+        updateNavigationState(contentId);
+        
+        // 滚动到顶部
+        theoryContent.scrollTop = 0;
+    }
+}
+
+// 更新导航状态
+function updateNavigationState(contentId) {
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.classList.remove('active');
+        const link = item.querySelector('a');
+        if (link && link.getAttribute('href') === '#' + contentId) {
+            item.classList.add('active');
+        }
+    });
+}
+
+// 设置搜索功能
+function setupSearchFunction() {
+    // 创建搜索框
+    const searchContainer = document.createElement('div');
+    searchContainer.className = 'search-container';
+    searchContainer.innerHTML = `
+        <input type="text" id="searchInput" placeholder="搜索理论内容...">
+        <div id="searchResults" class="search-results"></div>
+    `;
+    
+    // 添加到导航栏
+    const navContainer = document.querySelector('.nav-container');
+    if (navContainer) {
+        navContainer.appendChild(searchContainer);
+    }
+    
+    // 搜索功能
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    
+    if (searchInput && searchResults) {
+        searchInput.addEventListener('input', debounce(function() {
+            const query = this.value.trim();
+            if (query.length > 2) {
+                const results = contentManager.searchContent(query);
+                displaySearchResults(results, searchResults);
+            } else {
+                searchResults.innerHTML = '';
+                searchResults.style.display = 'none';
+            }
+        }, 300));
+        
+        // 点击外部关闭搜索结果
+        document.addEventListener('click', function(e) {
+            if (!searchContainer.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+    }
+}
+
+// 显示搜索结果
+function displaySearchResults(results, container) {
+    if (results.length === 0) {
+        container.innerHTML = '<p>未找到相关内容</p>';
+    } else {
+        const html = results.map(result => `
+            <div class="search-result-item" data-id="${result.id}">
+                <h4>${result.title}</h4>
+                <p>${result.metadata.tags.join(', ')}</p>
+            </div>
+        `).join('');
+        
+        container.innerHTML = html;
+        container.style.display = 'block';
+        
+        // 点击搜索结果
+        container.querySelectorAll('.search-result-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const contentId = this.getAttribute('data-id');
+                loadTheoryContent(contentId);
+                container.style.display = 'none';
+            });
+        });
+    }
+}
+
+// 更新动画控制
+function updateAnimationControls() {
+    const animationSelect = document.getElementById('animationSelect');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    
+    if (!animationSystem) return;
+    
+    // 动画选择
+    if (animationSelect) {
+        animationSelect.addEventListener('change', function() {
+            const animationId = this.value;
+            switch (animationId) {
+                case 'quantum-network':
+                    animationSystem.createQuantumNetworkAnimation();
+                    break;
+                case 'symmetry-breaking':
+                    animationSystem.createSymmetryBreakingAnimation();
+                    break;
+                case 'particle-emergence':
+                    animationSystem.createParticleEmergenceAnimation();
+                    break;
+                case 'time-duality':
+                    animationSystem.createTimeDualityAnimation();
+                    break;
+                case 'copernicus-plan':
+                    animationSystem.createCopernicusPlanAnimation();
+                    break;
+            }
+        });
+    }
+    
+    // 播放控制
+    if (playBtn) {
+        playBtn.addEventListener('click', function() {
+            // Three.js动画是自动播放的，这里可以添加额外的控制
+            showNotification('动画已开始播放', 'success');
+        });
+    }
+    
+    if (pauseBtn) {
+        pauseBtn.addEventListener('click', function() {
+            // 暂停动画
+            if (animationSystem && animationSystem.currentAnimation) {
+                animationSystem.currentAnimation.paused = true;
+                showNotification('动画已暂停', 'info');
+            }
+        });
+    }
+    
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            // 重置动画
+            if (animationSystem) {
+                animationSystem.clearScene();
+                showNotification('动画已重置', 'info');
+            }
+        });
+    }
+}
+
 // 导出函数供外部使用
 window.QSDTWebsite = {
     showNotification,
     addBookmark,
     showFormulaDetails,
-    showVerificationDetails
+    showVerificationDetails,
+    animationSystem: () => animationSystem
 };
 
 // 添加CSS样式到页面
