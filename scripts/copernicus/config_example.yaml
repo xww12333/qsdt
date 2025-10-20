@@ -1,0 +1,74 @@
+seed: 20251019
+paths:
+  data_dir: scripts/copernicus/data
+  outputs_dir: outputs
+calibration:
+  # Appendix 7 boundary-based calibration is used internally (mu_e and mu_Pl)
+rg:
+  scheme: "appendix7"   # coupled (g,J) betas; Gamma = g*J
+  mu_targets_GeV: [0.000511, 0.10566, 1.0, 10.0, 85.0, 91.1876, 246.0, 1000.0, 1.0e6, 1.0e9, 1.0e12, 1.0e15, 1.0e18]
+predictions:
+  # Select which quantities to output; mapping formulas will add more later
+  observables: ["J", "E", "Gamma", "g", "alpha_em@mu", "alpha_s@mu", "delta_m_np", "delta_m_np_dynamic", "lepton_spectrum", "m_e_MeV", "m_mu_MeV", "m_tau_MeV", "sin2_theta_W", "m_t_GeV", "m_d_mu_diff_MeV", "m_u_MeV", "m_d_MeV", "m_s_MeV", "m_c_GeV", "m_b_GeV", "m_W_GeV", "m_Z_GeV", "electron_g2", "a_e", "V_us", "n_s", "cmb_spectral_index", "theta_angle", "strong_cp_angle"]
+  # add CKM/PMNS leading observables
+  # observables: ["J", "E", "Gamma", "g", "alpha_em@mu", "alpha_s@mu", "delta_m_np", "delta_m_np_dynamic", "lepton_spectrum", "Higgs_mass", "m_e_MeV", "m_mu_MeV", "m_tau_MeV", "V_us", "sin_delta_CP"]
+  strict_mode: true
+  calibrate_running: true
+  formulas_module: scripts.copernicus.plugins.strict_formulas
+  running_refs:
+    - { type: alpha_em, mu_GeV: 91.1876, value: 0.007816 }
+    - { type: alpha_s,  mu_GeV: 91.1876, value: 0.1181 }
+  # higgs: 已禁用（当前阶段不计算Higgs质量）
+  delta_mnp:
+    C_EM: 0.331  # 理论推导值 from QSDT theory Appendix 24
+    C_QCD: 0.292  # 理论推导值 from QSDT theory Appendix 24
+  use_lepton_map: false  # 关闭严格映射，使用稳定回退常数生成轻子质量
+  # Optional Δm_np dynamic refs (fit A,B,C,p,q)
+  # dmnp_refs:
+  #   - { mu_GeV: 1.0, dmnp_MeV: 1.293 }
+validate:
+  metrics: ["abs_error", "rel_error", "chi2"]
+
+  
+grid:
+  stages:
+    - name: base_refs
+      produces: [alpha_em@MZ, alpha_s@MZ]
+      depends: []
+    - name: rg_coeffs
+      produces: [A,b_J,c_J]
+      depends: [base_refs]
+    - name: rg_integration
+      produces: [J, Gamma, g]
+      depends: [rg_coeffs]
+    - name: e_over_j
+      produces: [E_over_J]
+      depends: [rg_integration]
+    # - name: higgs_mass  # 已禁用
+    #   produces: [Higgs_mass]
+    #   depends: [e_over_j]
+    - name: dmnp_terms
+      produces: [dmnp_quark, dmnp_em, dmnp_qcd]
+      depends: [rg_integration]
+    - name: dmnp_total
+      produces: [delta_m_np]
+      depends: [dmnp_terms]
+    - name: lepton_spectrum
+      produces: [m_e, m_mu, m_tau]
+      depends: [rg_integration]
+    - name: weinberg_angle
+      produces: [sin2_theta_W]
+      depends: [rg_integration]
+  ssb:
+    z: 8.0
+    A: 0.8
+  
+  # Optional Δm_np dynamic refs (fit A,B,C,p,q) — use constant value across scales
+  dmnp_refs:
+    - { mu_GeV: 1.0, dmnp_MeV: 1.293 }
+    - { mu_GeV: 10.0, dmnp_MeV: 1.293 }
+    - { mu_GeV: 91.1876, dmnp_MeV: 1.293 }
+  # Optional per-term Δm_np references (piecewise interpolation in log μ)
+  dmnp_terms_refs:
+    - { mu_GeV: 1.0, quark_MeV: 2.4, em_MeV: -0.65, qcd_MeV: -0.46 }
+    - { mu_GeV: 10.0, quark_MeV: 2.4, em_MeV: -0.65, qcd_MeV: -0.46 }

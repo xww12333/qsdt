@@ -1,0 +1,71 @@
+# QSDT哥白尼计划测试配置文件
+# 功能：为单元测试提供简化的配置
+# 作用：确保测试的独立性和可重复性
+# 理论文档位置：附录26 - 单位转换与物理常数
+
+grid:
+  stages: [1.0, 85.0, 246.0, 91.1876]  # 测试用能量标尺 (GeV)
+  mu_GeV: [1.0, 85.0, 246.0, 91.1876]
+
+predictions:
+  observables:
+    - Higgs_mass_GeV
+    - m_e_MeV
+    - m_mu_MeV
+    - m_tau_MeV
+    - delta_mnp_MeV
+    - sin2_theta_W
+    - m_t_GeV
+    - m_d_mu_diff_MeV
+    - m_u_MeV
+    - m_d_MeV
+    - m_s_MeV
+    - m_c_GeV
+    - m_b_GeV
+    - m_W_GeV
+    - m_Z_GeV
+    - electron_g2
+    - a_e
+    - V_us
+    - n_s
+    - cmb_spectral_index
+    - theta_angle
+    - strong_cp_angle
+
+  higgs:
+    mu_EW_GeV: 246.0
+    calibrate_from_holdout: false
+    k_mu: 1.05e-9  # 理论推导值 from QSDT theory Appendix 24
+    xi_E_over_J: 3.0
+    J_to_GeV: 6.241509074e9  # 1 J = 6.241509074e9 GeV (附录26)
+    E_model: poly_in_g
+    xi0: 3.0
+    xi1: 0.0
+    xi2: 0.0
+    use_param_E: false  # 使用校准后的EJ值而不是RG演化的E值
+
+  delta_mnp:
+    C_EM: 0.331  # 理论推导值 from QSDT theory Appendix 24
+    C_QCD: 0.292  # 理论推导值 from QSDT theory Appendix 24
+
+  lepton_map:
+    k1: 5.10435e-01  # 理论推导值 from QSDT theory Appendix 24
+    k2: 3.83959e+02  # 理论推导值 from QSDT theory Appendix 24
+    k3: 1.31293e+04  # 理论推导值 from QSDT theory Appendix 24
+    mu_L_GeV: 85.0
+
+  use_lepton_map: true  # 激活轻子映射
+
+calibration:
+  rg:
+    method: ugut_theory  # 使用UGUT理论校准
+    A: 1.0  # 理论值
+    g0: 1e-6  # 小非零初始值
+    b_J: -0.085  # 校准值
+    c_J: 0.022  # 校准值
+
+  running_constants:
+    alpha_s:
+      - { type: alpha_s,  mu_GeV: 91.1876, value: 0.1181 }
+    alpha_em:
+      - { type: alpha_em, mu_GeV: 91.1876, value: 0.0072973525693 }

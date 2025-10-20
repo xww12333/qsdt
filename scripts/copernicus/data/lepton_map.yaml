@@ -1,0 +1,8 @@
+# Cn = f_n(J, E, Γ) mapping at lepton scale μ_L
+# C1 = k1 * (E - 2J)
+# C2 = k2 * Γ
+# C3 = k3 * (Γ^2 / J)
+k1: 2.61e-10  # 理论推导值 from QSDT theory
+k2: 4.18e+04  # 理论推导值 from QSDT theory  
+k3: 1.95e+13  # 理论推导值 from QSDT theory
+mu_L_GeV: 85.0

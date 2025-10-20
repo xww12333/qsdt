@@ -1,0 +1,8 @@
+mu_GeV,observable,meas,unc
+246.0,Higgs_mass_GeV,125.10,0.14
+1.0,delta_m_np_MeV,1.293,0.005
+85.0,m_e_MeV,0.510999,0.000001
+85.0,m_mu_MeV,105.658,0.005
+85.0,m_tau_MeV,1776.86,0.12
+91.1876,alpha_s@mu,0.1179,0.0009
+91.1876,alpha_em@mu,0.007816,1e-6

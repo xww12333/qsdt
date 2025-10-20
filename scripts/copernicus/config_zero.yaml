@@ -1,0 +1,23 @@
+seed: 20251019
+paths:
+  data_dir: scripts/copernicus/data
+  outputs_dir: outputs
+calibration:
+  # 零标定配置：不注入running_refs
+rg:
+  scheme: "appendix7"   # coupled (g,J) betas; Gamma = g*J
+  mu_targets_GeV: [0.000511, 0.10566, 1.0, 10.0, 85.0, 91.1876, 246.0, 1000.0]
+predictions:
+  observables: ["J", "E", "Gamma", "g", "alpha_em@mu", "alpha_s@mu", "delta_m_np", "delta_m_np_dynamic", "lepton_spectrum", "m_e_MeV", "m_mu_MeV", "m_tau_MeV", "sin2_theta_W", "m_t_GeV", "m_d_mu_diff_MeV", "m_u_MeV", "m_d_MeV", "m_s_MeV", "m_c_GeV", "m_b_GeV", "m_W_GeV", "m_Z_GeV", "electron_g2", "a_e", "V_us", "n_s", "cmb_spectral_index", "theta_angle", "strong_cp_angle"]
+  strict_mode: true
+  calibrate_running: false
+  formulas_module: scripts.copernicus.plugins.strict_formulas
+  # 无running_refs（零标定）
+  # higgs: 禁用（本阶段不计算Higgs质量）
+  delta_mnp:
+    C_EM: 0.331
+    C_QCD: 0.292
+  use_lepton_map: false
+validate:
+  metrics: ["abs_error", "rel_error", "chi2"]
+

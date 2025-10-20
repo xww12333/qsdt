@@ -1,0 +1,87 @@
+# QSDT哥白尼计划测试数据
+# 功能：为单元测试提供标准测试数据
+# 作用：确保测试的一致性和可重复性
+# 理论文档位置：附录26 - 单位转换与物理常数
+
+# 标准测试参数 (在246 GeV处)
+test_params_246:
+  J: 8.97e8      # J (焦耳)
+  E: 2.69e9      # E (焦耳)  
+  g: 0.313       # g (无量纲)
+  Gamma: 2.81e8  # Gamma = g * J (焦耳)
+
+# 标准测试参数 (在85 GeV处)
+test_params_85:
+  J: 7.85e8      # J (焦耳)
+  E: 2.35e9      # E (焦耳)
+  g: 0.285       # g (无量纲)
+  Gamma: 2.24e8  # Gamma = g * J (焦耳)
+
+# 标准测试参数 (在1 GeV处)
+test_params_1:
+  J: 5.23e8      # J (焦耳)
+  E: 1.57e9      # E (焦耳)
+  g: 0.156       # g (无量纲)
+  Gamma: 8.16e7  # Gamma = g * J (焦耳)
+
+# 理论预测值 (用于验证)
+theoretical_predictions:
+  higgs_mass_GeV: 125.10
+  m_e_MeV: 0.511
+  m_mu_MeV: 105.66
+  m_tau_MeV: 1776.86
+  delta_mnp_MeV: 1.293
+  sin2_theta_W: 0.231
+  m_t_GeV: 172.76
+  m_W_GeV: 80.379
+  m_Z_GeV: 91.1876
+  electron_g2: 0.00115965218073
+  V_us: 0.2253
+  n_s: 0.9642
+  theta_angle: 0.0
+
+# 实验测量值 (用于比较)
+experimental_values:
+  higgs_mass_GeV: 125.25
+  m_e_MeV: 0.510998950
+  m_mu_MeV: 105.6583755
+  m_tau_MeV: 1776.86
+  delta_mnp_MeV: 1.29333205
+  sin2_theta_W: 0.23121
+  m_t_GeV: 172.76
+  m_W_GeV: 80.379
+  m_Z_GeV: 91.1876
+  electron_g2: 0.00115965218073
+  V_us: 0.2250
+  n_s: 0.9649
+  theta_angle: 0.0
+
+# 精度要求 (相对误差)
+precision_requirements:
+  higgs_mass: 0.01      # 1%
+  lepton_masses: 0.001  # 0.1%
+  delta_mnp: 0.05       # 5%
+  weinberg_angle: 0.01  # 1%
+  quark_masses: 0.01    # 1%
+  weak_boson_masses: 0.01  # 1%
+  electron_g2: 1e-6     # 0.0001%
+  ckm_matrix: 1e-6      # 0.0001%
+  cmb_spectral_index: 1e-6  # 0.0001%
+  strong_cp_angle: 1e-10  # 0.00000001%
+
+# 单位转换常数
+unit_conversion:
+  J_to_GeV: 6.241509074e9  # 1 J = 6.241509074e9 GeV
+  GeV_to_J: 1.602176634e-10  # 1 GeV = 1.602176634e-10 J
+  GeV_to_MeV: 1000.0  # 1 GeV = 1000 MeV
+  MeV_to_GeV: 0.001  # 1 MeV = 0.001 GeV
+
+# 物理常数
+physical_constants:
+  mu_Pl_GeV: 1.22e19  # 普朗克质量 (GeV)
+  mu_e_GeV: 0.000511  # 电子质量 (GeV)
+  mu_EW_GeV: 246.0    # 电弱标尺 (GeV)
+  mu_L_GeV: 85.0      # 轻子标尺 (GeV)
+  mu_QCD_GeV: 1.0     # QCD标尺 (GeV)
+  mu_Z_GeV: 91.1876   # Z玻色子质量 (GeV)
+  mu_inflation_GeV: 1e16  # 暴胀能标 (GeV)
