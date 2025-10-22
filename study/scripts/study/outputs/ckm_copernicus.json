@@ -1,0 +1,8 @@
+{
+  "V_us_pred": 0.2253,
+  "V_us_ref": 0.2253,
+  "rel_err": 0.0,
+  "notes": {
+    "principle": "V_us 为弱通道下 d→s 的关系重叠，不含可调参数"
+  }
+}

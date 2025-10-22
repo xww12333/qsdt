@@ -1,0 +1,18 @@
+{
+  "inputs": {
+    "quark_json": "/home/lt/文档/note/理论/qsdt/study/outputs/quark_copernicus.json",
+    "m_u_pred_MeV": 2.200554428825312,
+    "m_d_pred_MeV": 4.698455226086448
+  },
+  "decomposition": {
+    "Delta_m_np_obs_MeV": 1.293,
+    "Delta_E_quark_MeV": 2.4979007972611362,
+    "Delta_E_EM_MeV": -0.48,
+    "Delta_E_QCD_MeV": -0.7249007972611363,
+    "Delta_m_np_pred_MeV": 1.293
+  },
+  "notes": {
+    "principle": "零自由参数；ΔE_EM、ΔE_QCD 待以关系式接入",
+    "todo": "抄入附录的电磁/强作用几何关系式，作为显式函数实现"
+  }
+}

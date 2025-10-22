@@ -1,0 +1,7 @@
+{
+  "theta_pred": 0.0,
+  "theta_upper_bound_exp": 1e-10,
+  "notes": {
+    "principle": "拓扑对称性固定 θ=0（零参数）"
+  }
+}

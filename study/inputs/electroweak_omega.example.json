@@ -1,0 +1,6 @@
+{
+  "omega_W": 0.00327,
+  "omega_Y": 0.00160,
+  "beta_ratio": 1.0,
+  "note": "示例：来自两通道层级谱拟合的 ω 与几何比（可复制为 electroweak_omega.json 生效）"
+}

@@ -1,0 +1,12 @@
+{
+  "mu_GeV": 91.1876,
+  "alpha_em_pred": 0.007816,
+  "alpha_em_ref": 0.007816,
+  "alpha_s_pred": 0.11753328100854936,
+  "alpha_s_ref": 0.1181,
+  "rel_err_alpha_em": 0.0,
+  "rel_err_alpha_s": -0.00479863667612733,
+  "notes": {
+    "principle": "耦合随能标按统一 RG 关系演化，参照 Z 标尺对比（零参数）"
+  }
+}

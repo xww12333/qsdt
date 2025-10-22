@@ -1,0 +1,24 @@
+{
+  "inputs": {
+    "g": 0.223,
+    "beta_gamma": 3.75,
+    "m0": 125.1,
+    "units": "GeV",
+    "N": 10,
+    "N_min": null,
+    "N_max": null
+  },
+  "omega": 0.00327421141414945,
+  "spectrum": [
+    {
+      "N": 10,
+      "m_in_units": 127.16147451884454,
+      "m_GeV": 127.16147451884454,
+      "m_MeV": 127161.47451884454
+    }
+  ],
+  "notes": {
+    "principle": "No free parameters; all inputs are relation invariants or anchored scales.",
+    "formula": "m_N = m0 * (1+omega)^(N/2), omega=(beta_gamma*g^2*ln2)/(4*pi^2)"
+  }
+}
