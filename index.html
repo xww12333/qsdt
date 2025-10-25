@@ -12,6 +12,32 @@
         #performance { margin-top: 3px; font-size: 11px; color: #ffff00; }
         input { margin: 3px; padding: 3px; width: 70px; }
         label { margin-right: 3px; font-size: 12px; }
+        
+        /* 自定义滚动条样式 */
+        #detailedGuide::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        #detailedGuide::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+        
+        #detailedGuide::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00ff00, #00ffff);
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        #detailedGuide::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #00ffff, #00ff00);
+        }
+        
+        /* Firefox 滚动条样式 */
+        #detailedGuide {
+            scrollbar-width: thin;
+            scrollbar-color: #00ff00 rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
@@ -110,7 +136,7 @@
     </div>
     
     <!-- 右侧使用说明面板 -->
-    <div id="instructions" style="position: absolute; top: 10px; right: 10px; color: white; font-size: 12px; max-width: 200px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 5px; border: 1px solid #333;">
+    <div id="instructions" style="position: absolute; top: 10px; right: 10px; color: white; font-size: 12px; max-width: 200px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 5px; border: 1px solid #333; z-index: 999;">
         <strong>操作说明：</strong><br>
         • 鼠标滚轮：缩放<br>
         • 自由视角：拖拽旋转<br>
@@ -127,7 +153,7 @@
     </div>
     
     <!-- 详细说明面板 -->
-    <div id="detailedGuide" style="position: absolute; top: 10px; left: 10px; color: white; font-size: 11px; max-width: 350px; background: rgba(0,0,0,0.9); padding: 15px; border-radius: 8px; border: 2px solid #444; display: none; z-index: 1000;">
+    <div id="detailedGuide" style="position: absolute; top: 250px; right: 10px; color: white; font-size: 11px; max-width: 350px; max-height: calc(100vh - 350px); background: rgba(0,0,0,0.9); padding: 15px; border-radius: 8px; border: 2px solid #444; display: none; z-index: 1000; overflow-y: auto; overflow-x: hidden;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <strong style="font-size: 14px; color: #00ff00;">QSDT理论关系显化详解</strong>
             <button onclick="toggleDetailedGuide()" style="background: #ff4444; color: white; border: none; border-radius: 3px; padding: 2px 6px; cursor: pointer; font-size: 10px;">关闭</button>
