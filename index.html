@@ -65,6 +65,49 @@
         </div>
         
         <div style="margin-bottom: 8px;">
+            <strong>数学结构可视化:</strong><br>
+            <button onclick="showHamiltonianMatrix()">哈密顿量矩阵</button>
+            <button onclick="showTensorVisualization()">关系张量</button>
+            <button onclick="showBetaFunction()">贝塔函数</button>
+            <button onclick="showPhysicalConstants()">物理常数</button>
+        </div>
+        
+        <div style="margin-bottom: 8px;">
+            <strong>观察者交互:</strong><br>
+            <button onclick="createObserverNode()">创建观察者</button>
+            <button onclick="activateObserverMode()">观察者模式</button>
+            <button onclick="showObserverInfluence()">观察影响</button>
+        </div>
+        
+        <div style="margin-bottom: 8px;">
+            <strong>能量可视化:</strong><br>
+            <button onclick="showIntrinsicEnergy()">内禀能量</button>
+            <button onclick="showEnergyFlow()">能量流动</button>
+            <button onclick="showEnergyDensity()">能量密度</button>
+        </div>
+        
+        <div style="margin-bottom: 8px;">
+            <strong>张量几何:</strong><br>
+            <button onclick="showTensor3DGeometry()">3D张量</button>
+            <button onclick="showTensorField()">张量场</button>
+            <button onclick="showTensorFlow()">张量流</button>
+        </div>
+        
+        <div style="margin-bottom: 8px;">
+            <strong>哥白尼计划:</strong><br>
+            <button onclick="showDualPathVerification()">双路径验证</button>
+            <button onclick="showReversePath()">反推路径</button>
+            <button onclick="showForwardPath()">正推路径</button>
+        </div>
+        
+        <div style="margin-bottom: 8px;">
+            <strong>量子涨落:</strong><br>
+            <button onclick="showQuantumFluctuations()">量子涨落</button>
+            <button onclick="showVacuumFluctuations()">真空涨落</button>
+            <button onclick="showVirtualParticles()">虚粒子</button>
+        </div>
+        
+        <div style="margin-bottom: 8px;">
             <strong>宇宙操作:</strong><br>
             <button onclick="generateSubUniverse()">生成子宇宙</button>
             <button onclick="compressMotherUniverse()">压缩母宇宙</button>
@@ -136,34 +179,129 @@
     </div>
     
     <!-- 右侧使用说明面板 -->
-    <div id="instructions" style="position: absolute; top: 10px; right: 10px; color: white; font-size: 12px; max-width: 200px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 5px; border: 1px solid #333; z-index: 999;">
-        <strong>操作说明：</strong><br>
-        • 鼠标滚轮：缩放<br>
-        • 自由视角：拖拽旋转<br>
-        • 点击按钮：切换视角模式<br>
-        • 滑块：调节参数<br>
-        <strong>快捷键：</strong><br>
-        • H键：隐藏/显示控制面板<br>
-        • I键：隐藏/显示说明<br>
-        • G键：隐藏/显示详细说明<br>
-        • R键：重置视角<br>
+    <div id="instructions" style="position: absolute; top: 10px; right: 10px; color: white; font-size: 12px; max-width: 220px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 5px; border: 1px solid #333; z-index: 999;">
+        <strong>🎮 操作指南：</strong><br>
+        <strong>鼠标控制：</strong><br>
+        • 滚轮：缩放视角<br>
+        • 拖拽：旋转视角<br>
+        • 点击：切换模式<br>
+        <br>
+        <strong>⌨️ 快捷键：</strong><br>
+        • H：控制面板<br>
+        • I：操作说明<br>
+        • G：理论详解<br>
+        • M：数学结构<br>
+        • R：重置视角<br>
+        • 1-4：数学可视化<br>
+        • O：创建观察者<br>
+        • P：观察者模式<br>
+        • E：内禀能量<br>
+        • F：能量流动<br>
+        • D：能量密度<br>
+        • T：3D张量几何<br>
+        • Y：张量场<br>
+        • U：张量流<br>
+        • C：双路径验证<br>
+        • V：反推路径<br>
+        • B：正推路径<br>
+        • Q：量子涨落<br>
+        • W：真空涨落<br>
+        • X：虚粒子<br>
+        <br>
         <button onclick="toggleControls()" style="margin-top: 5px; padding: 3px; font-size: 10px; background: #555; color: white; border: none; border-radius: 3px; cursor: pointer;">隐藏控制面板</button>
         <button onclick="toggleInstructions()" style="margin-top: 3px; padding: 3px; font-size: 10px; background: #555; color: white; border: none; border-radius: 3px; cursor: pointer;">隐藏说明</button>
-        <button onclick="toggleDetailedGuide()" style="margin-top: 3px; padding: 3px; font-size: 10px; background: #555; color: white; border: none; border-radius: 3px; cursor: pointer;">详细说明</button>
+        <button onclick="toggleDetailedGuide()" style="margin-top: 3px; padding: 3px; font-size: 10px; background: #555; color: white; border: none; border-radius: 3px; cursor: pointer;">理论详解</button>
+    </div>
+    
+    <!-- 数学结构可视化面板 -->
+    <div id="mathVisualization" style="position: absolute; top: 10px; left: 320px; color: white; font-size: 11px; max-width: 400px; max-height: calc(100vh - 20px); background: rgba(0,0,0,0.9); padding: 15px; border-radius: 8px; border: 2px solid #00ff00; display: none; z-index: 1000; overflow-y: auto; overflow-x: hidden;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <strong style="font-size: 14px; color: #00ff00;">QSDT数学结构可视化</strong>
+            <button onclick="toggleMathVisualization()" style="background: #ff4444; color: white; border: none; border-radius: 3px; padding: 2px 6px; cursor: pointer; font-size: 10px;">关闭</button>
+        </div>
+        
+        <div id="hamiltonianDisplay" style="display: none; margin-bottom: 15px;">
+            <strong style="color: #00ffff;">🔢 哈密顿量矩阵 H_dyn:</strong><br>
+            <div style="font-family: monospace; font-size: 10px; background: rgba(0,255,0,0.1); padding: 8px; border-radius: 4px; margin: 5px 0;">
+                H = Σᵢⱼ Jᵢⱼ|i⟩⟨j| + Σᵢ Eᵢ|i⟩⟨i| + Γᵢⱼ|i⟩⟨j|<br>
+                <span style="color: #ffff00;">Jᵢⱼ</span>: 耦合强度 = <span id="couplingValue">0.5</span><br>
+                <span style="color: #00ffff;">Eᵢ</span>: 局域能量 = <span id="localEnergy">1.0</span><br>
+                <span style="color: #ff6600;">Γᵢⱼ</span>: 量子涨落 = <span id="fluctuationValue">0.1</span>
+            </div>
+        </div>
+        
+        <div id="tensorDisplay" style="display: none; margin-bottom: 15px;">
+            <strong style="color: #00ffff;">📐 关系张量 T_ij:</strong><br>
+            <div style="font-family: monospace; font-size: 10px; background: rgba(0,255,255,0.1); padding: 8px; border-radius: 4px; margin: 5px 0;">
+                T_ij = R_ij ⊗ θ_ij ⊗ J_ij<br>
+                <span style="color: #ffff00;">R_ij</span>: 几何关系 = <span id="geometricRelation">1.0</span><br>
+                <span style="color: #00ff00;">θ_ij</span>: 相位关系 = <span id="phaseRelation">0.0</span><br>
+                <span style="color: #ff6600;">J_ij</span>: 能量关系 = <span id="energyRelation">0.5</span>
+            </div>
+        </div>
+        
+        <div id="betaFunctionDisplay" style="display: none; margin-bottom: 15px;">
+            <strong style="color: #00ffff;">📈 贝塔函数演化:</strong><br>
+            <div style="font-family: monospace; font-size: 10px; background: rgba(255,0,255,0.1); padding: 8px; border-radius: 4px; margin: 5px 0;">
+                d(Γ/J)/d(lnμ) = A·(Γ/J)(1-Γ/J)<br>
+                <span style="color: #ffff00;">当前能标</span>: μ = <span id="energyScale">100</span> GeV<br>
+                <span style="color: #00ff00;">涨落强度</span>: g = <span id="fluctuationStrength">0.2</span><br>
+                <span style="color: #00ffff;">演化速率</span>: β = <span id="betaRate">0.05</span>
+            </div>
+        </div>
+        
+                <div id="physicalConstantsDisplay" style="display: none; margin-bottom: 15px;">
+                    <strong style="color: #00ffff;">⚛️ 物理常数涌现:</strong><br>
+                    <div style="font-family: monospace; font-size: 10px; background: rgba(255,255,0,0.1); padding: 8px; border-radius: 4px; margin: 5px 0;">
+                        <span style="color: #ffff00;">光速</span>: c = 2Ja/ħ = <span id="lightSpeed">299792458</span> m/s<br>
+                        <span style="color: #00ff00;">静止质量</span>: m₀c² = E - 2J = <span id="restMass">0.5</span> GeV<br>
+                        <span style="color: #00ffff;">引力常数</span>: G = k_G²ħc⁵/J² = <span id="gravitationalConstant">6.67e-11</span> m³/kg·s²<br>
+                        <span style="color: #ff6600;">普朗克常数</span>: ħ = J·a = <span id="planckConstant">1.05e-34</span> J·s<br>
+                        <span style="color: #ff00ff;">精细结构常数</span>: α = e²/(4πε₀ħc) = <span id="fineStructureConstant">0.007297</span><br>
+                        <span style="color: #00ff00;">电子质量</span>: m_e = <span id="electronMass">0.511</span> MeV/c²<br>
+                        <span style="color: #ffff00;">质子质量</span>: m_p = <span id="protonMass">938.3</span> MeV/c²<br>
+                        <span style="color: #00ffff;">中子质量</span>: m_n = <span id="neutronMass">939.6</span> MeV/c²<br>
+                        <span style="color: #ff6600;">弱相互作用常数</span>: g_W = <span id="weakCoupling">0.65</span><br>
+                        <span style="color: #ff00ff;">强相互作用常数</span>: g_s = <span id="strongCoupling">1.2</span>
+                    </div>
+                </div>
     </div>
     
     <!-- 详细说明面板 -->
-    <div id="detailedGuide" style="position: absolute; top: 250px; right: 10px; color: white; font-size: 11px; max-width: 350px; max-height: calc(100vh - 350px); background: rgba(0,0,0,0.9); padding: 15px; border-radius: 8px; border: 2px solid #444; display: none; z-index: 1000; overflow-y: auto; overflow-x: hidden;">
+    <div id="detailedGuide" style="position: absolute; top: 540px; right: 10px; color: white; font-size: 10px; max-width: 400px; max-height: 550px; background: rgba(0,0,0,0.95); padding: 15px; border-radius: 8px; border: 2px solid #444; display: block; z-index: 1000; overflow-y: auto; overflow-x: hidden;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <strong style="font-size: 14px; color: #00ff00;">QSDT理论关系显化详解</strong>
             <button onclick="toggleDetailedGuide()" style="background: #ff4444; color: white; border: none; border-radius: 3px; padding: 2px 6px; cursor: pointer; font-size: 10px;">关闭</button>
         </div>
         
+        <div style="margin-bottom: 15px; padding: 8px; background: rgba(0,255,0,0.1); border-radius: 5px; border-left: 3px solid #00ff00;">
+            <strong style="color: #00ff00;">🎯 QSDT核心思想：</strong><br>
+            <span style="color: #ffff00;">关系先于实体</span> - 一切存在都是关系的显化<br>
+            <span style="color: #00ffff;">观察者即创造者</span> - 观察者通过选择关系创造世界<br>
+            <span style="color: #ff6600;">存在即证明</span> - 关系对了，结果自然对
+        </div>
+        
+        <div style="margin-bottom: 15px; padding: 8px; background: rgba(0,255,255,0.1); border-radius: 5px; border-left: 3px solid #00ffff;">
+            <strong style="color: #00ffff;">📐 三条根本公理：</strong><br>
+            <span style="color: #ffff00;">公理I</span>：宇宙由离散Q单元构成，每个具有内禀能量E<br>
+            <span style="color: #00ff00;">公理II</span>：物理实在由Q单元间的连接关系J_ij和拓扑Γ构成<br>
+            <span style="color: #ff6600;">公理III</span>：系统演化由哈密顿量H_dyn驱动，包含量子涨落
+        </div>
+        
+        <div style="margin-bottom: 15px; padding: 8px; background: rgba(255,255,0,0.1); border-radius: 5px; border-left: 3px solid #ffff00;">
+            <strong style="color: #ffff00;">🔬 四大基本力统一：</strong><br>
+            <span style="color: #ff0000;">引力</span>：网络激发在3D空间的(1/r²)稀释<br>
+            <span style="color: #00ff00;">电磁力</span>：网络相位波动的传播<br>
+            <span style="color: #0000ff;">强相互作用</span>：网络局域关系的强耦合<br>
+            <span style="color: #ff6600;">弱相互作用</span>：网络关系的非对称破缺
+        </div>
+        
         <div style="margin-bottom: 12px;">
             <strong style="color: #00ffff;">🌐 基础网络结构：</strong><br>
-            • <span style="color: #00ff00;">绿色节点</span>：量子空间基本单元<br>
-            • <span style="color: #00ff00;">绿色连接线</span>：关系网络连接<br>
-            • <span style="color: #ff6600;">橙色相位波</span>：信息传递过程
+            • <span style="color: #00ff00;">绿色节点</span>：量子空间基本单元(Q_i)<br>
+            • <span style="color: #00ff00;">绿色连接线</span>：关系网络连接(J_ij)<br>
+            • <span style="color: #ff6600;">橙色相位波</span>：信息传递过程<br>
+            • <span style="color: #ffff00;">理论意义</span>：体现"关系先于实体"的核心思想
         </div>
         
         <div style="margin-bottom: 12px;">
@@ -202,10 +340,27 @@
             • 观察：节点旋转，数据流动
         </div>
         
+        <div style="margin-bottom: 15px; padding: 8px; background: rgba(255,0,255,0.1); border-radius: 5px; border-left: 3px solid #ff00ff;">
+            <strong style="color: #ff00ff;">🧬 生命科学统一描述：</strong><br>
+            <span style="color: #00ff00;">DNA</span>：生物网络的"关系编码"<br>
+            <span style="color: #ffff00;">蛋白质</span>：关系模式的"三维折叠"<br>
+            <span style="color: #00ffff;">细胞</span>：关系网络的"局域子域"<br>
+            <span style="color: #ff6600;">器官</span>：关系网络的"集体激发态"
+        </div>
+        
+        <div style="margin-bottom: 15px; padding: 8px; background: rgba(255,128,0,0.1); border-radius: 5px; border-left: 3px solid #ff8000;">
+            <strong style="color: #ff8000;">🧠 意识科学统一描述：</strong><br>
+            <span style="color: #00ff00;">感知</span>：关系网络的"驱动-读出"过程<br>
+            <span style="color: #ffff00;">思维</span>：关系网络的"相位锁定"模式<br>
+            <span style="color: #00ffff;">记忆</span>：关系网络的"稳定激发态"<br>
+            <span style="color: #ff6600;">自我意识</span>：关系网络的"自反馈回路"
+        </div>
+        
         <div style="margin-bottom: 12px;">
             <strong style="color: #00ffff;">🧠 意识觉醒：</strong><br>
             • <span style="color: #ff8800;">橙色节点</span>：意识节点<br>
             • <span style="color: #ff8800;">觉醒粒子</span>：自我建模过程<br>
+            • <span style="color: #ffff00;">理论意义</span>：意识作为关系网络的集体激发态<br>
             • 观察：节点亮度变化，粒子环绕
         </div>
         
@@ -238,12 +393,102 @@
             • 观察：光束旋转，粒子向探测器移动
         </div>
         
+        <div style="margin-bottom: 12px;">
+            <strong style="color: #00ffff;">🔢 数学结构可视化：</strong><br>
+            • <span style="color: #00ff00;">哈密顿量矩阵</span>：H_dyn = Σᵢⱼ Jᵢⱼ|i⟩⟨j| + Σᵢ Eᵢ|i⟩⟨i|<br>
+            • <span style="color: #00ffff;">关系张量</span>：T_ij = R_ij ⊗ θ_ij ⊗ J_ij<br>
+            • <span style="color: #ff6600;">贝塔函数</span>：d(Γ/J)/d(lnμ) = A·(Γ/J)(1-Γ/J)<br>
+            • <span style="color: #ffff00;">物理常数</span>：c = 2Ja/ħ, m₀c² = E - 2J<br>
+            • 观察：实时数值更新，反映网络状态
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+            <strong style="color: #00ffff;">👁️ 观察者系统：</strong><br>
+            • <span style="color: #ff00ff;">紫色节点</span>：观察者节点<br>
+            • <span style="color: #ff00ff;">紫色球体</span>：影响范围<br>
+            • <span style="color: #ff00ff;">紫色连接</span>：观察者-网络交互<br>
+            • 观察：观察者改变网络状态，体现"观察创造现实"
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+            <strong style="color: #00ffff;">⚡ 内禀能量可视化：</strong><br>
+            • <span style="color: #ffff00;">能量球</span>：显示每个Q单元的内禀能量E_i<br>
+            • <span style="color: #00ff00;">能量流动</span>：可视化能量在网络中的传递<br>
+            • <span style="color: #ff6600;">能量密度</span>：基于节点密度的能量分布<br>
+            • 颜色编码：能量大小对应颜色变化<br>
+            • 快捷键：E内禀能量，F能量流动，D能量密度
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+            <strong style="color: #00ffff;">📐 张量几何可视化：</strong><br>
+            • <span style="color: #ffff00;">3D张量椭球</span>：T_ij = R_ij ⊗ θ_ij ⊗ J_ij的几何表示<br>
+            • <span style="color: #00ff00;">张量场向量</span>：空间中的张量场梯度方向<br>
+            • <span style="color: #ff6600;">张量流粒子</span>：张量场的动态流动表现<br>
+            • 几何关系：椭球形状反映张量分量<br>
+            • 快捷键：T3D张量，Y张量场，U张量流
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+            <strong style="color: #00ffff;">🔄 哥白尼计划双路径验证：</strong><br>
+            • <span style="color: #ff0000;">反推路径</span>：从实验数据反推理论参数<br>
+            • <span style="color: #00ff00;">正推路径</span>：从理论参数正推物理常数<br>
+            • <span style="color: #ffff00;">验证连接</span>：双路径验证的一致性检查<br>
+            • <span style="color: #ff6600;">数据流粒子</span>：验证过程中的数据流动<br>
+            • 快捷键：C双路径验证，V反推路径，B正推路径
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+            <strong style="color: #00ffff;">🌊 量子涨落可视化：</strong><br>
+            • <span style="color: #ffff00;">量子涨落粒子</span>：基态和激发态的涨落表现<br>
+            • <span style="color: #00ff00;">真空涨落波</span>：真空中的量子场涨落<br>
+            • <span style="color: #ff6600;">虚粒子对</span>：虚粒子的产生和湮灭过程<br>
+            • 量子态切换：激发态和基态的动态转换<br>
+            • 快捷键：Q量子涨落，W真空涨落，X虚粒子
+        </div>
+        
+        <div style="margin-bottom: 15px; padding: 8px; background: rgba(128,0,255,0.1); border-radius: 5px; border-left: 3px solid #8000ff;">
+            <strong style="color: #8000ff;">🌟 宇宙意志觉醒：</strong><br>
+            <span style="color: #ff00ff;">意志传递</span>：关系觉知的宇宙级传递<br>
+            <span style="color: #00ffff;">子宇宙诞生</span>：羸弱闭环的继承演化<br>
+            <span style="color: #ffff00;">母宇宙保护</span>：关系屏障的阈值控制<br>
+            <span style="color: #ff6600;">恐怖存在</span>：高维强耦合的跨界影响<br>
+            <span style="color: #00ff00;">王国控制</span>：高维对低维的关系传递
+        </div>
+        
+        <div style="margin-bottom: 15px; padding: 8px; background: rgba(0,255,128,0.1); border-radius: 5px; border-left: 3px solid #00ff80;">
+            <strong style="color: #00ff80;">🌍 关系统一世界观：</strong><br>
+            <span style="color: #ffff00;">数学</span>：关系网络的"计数模式"和"空间结构"<br>
+            <span style="color: #00ff00;">化学</span>：关系网络的"节点"和"子域"<br>
+            <span style="color: #00ffff;">生物学</span>：关系网络的"编码"和"自组织"<br>
+            <span style="color: #ff6600;">心理学</span>：关系网络的"感知"和"认知"<br>
+            <span style="color: #ff00ff;">哲学</span>：关系网络的"存在"和"意义"
+        </div>
+        
         <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #444;">
-            <strong style="color: #ffff00;">💡 观察技巧：</strong><br>
-            • 使用自由视角近距离观察细节<br>
-            • 调整节点数量观察网络密度变化<br>
-            • 结合不同视角模式理解空间关系<br>
-            • 注意颜色变化和运动模式
+            <strong style="color: #ffff00;">💡 理论理解要点：</strong><br>
+            • <span style="color: #00ff00;">观察不同颜色</span>代表的物理意义和理论层次<br>
+            • <span style="color: #00ffff;">理解关系网络</span>的动态演化过程和自组织机制<br>
+            • <span style="color: #ff6600;">体验"观察创造现实"</span>的核心理念和哲学意义<br>
+            • <span style="color: #ff00ff;">感受量子空间网络</span>的集体激发态和涌现现象<br>
+            • <span style="color: #ffff00;">观察数学结构</span>与网络状态的实时对应关系<br>
+            • <span style="color: #00ff00;">理解关系统一</span>：所有学科描述同一关系网络<br>
+            • <span style="color: #00ffff;">体验意志觉醒</span>：宇宙意志的渐进苏醒过程<br>
+            • <span style="color: #ff6600;">感受存在证明</span>：关系对了，结果自然对
+        </div>
+        
+        <div style="margin-top: 15px; padding: 8px; background: rgba(255,0,0,0.1); border-radius: 5px; border-left: 3px solid #ff0000;">
+            <strong style="color: #ff0000;">⚠️ 重要提醒：</strong><br>
+            <span style="color: #ffff00;">理解QSDT的关键</span>在于认知范式的根本转变！<br>
+            <span style="color: #00ff00;">从"实体物理"</span>转向<span style="color: #00ffff;">"关系物理"</span><br>
+            <span style="color: #ff6600;">从"学科分割"</span>转向<span style="color: #ff00ff;">"关系统一"</span><br>
+            <span style="color: #ffff00;">从"客观观察"</span>转向<span style="color: #00ff00;">"参与创造"</span>
+        </div>
+        
+        <div style="margin-top: 10px; padding: 8px; background: rgba(0,255,255,0.1); border-radius: 5px; border-left: 3px solid #00ffff;">
+            <strong style="color: #00ffff;">🎯 终极结论：</strong><br>
+            <span style="color: #ffff00;">宇宙是关系的网</span>，观察是网的自演<br>
+            <span style="color: #00ff00;">数学是关系的影子</span>，验证是影子的回声<br>
+            <span style="color: #ff6600;">存在是关系的显化</span>，和谐是关系的目标
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
@@ -553,7 +798,7 @@
             camera.position.z = 80;
 
             // 多视角切换
-            let viewMode = 'front';
+            let viewMode = 'free';
             let rotationAngle = 0;
             let zoomLevel = 80;
             let manualZoom = 80;
@@ -580,7 +825,7 @@
             // 哥白尼闭环
             const copernicusNodes = [];
             const copernicusConnections = [];
-            const dataFlowParticles = [];
+            const copernicusDataFlowParticles = [];
             let copernicusLoopActive = false;
             let loopSpeed = 2;
             let dataFlowIntensity = 5;
@@ -621,6 +866,48 @@
             let detectorActive = false;
             let detectorSpeed = 1.5;
             let scanRange = 30;
+            
+            // 观察者系统
+            const observerNodes = [];
+            const observerConnections = [];
+            const observerInfluence = [];
+            let observerActive = false;
+            let observerMode = false;
+            let observerCount = 0;
+            let observerInfluenceRange = 10;
+            
+            // 内禀能量可视化系统
+            const energySpheres = [];
+            const energyConnections = [];
+            const energyFlowParticles = [];
+            let intrinsicEnergyActive = false;
+            let energyFlowActive = false;
+            let energyDensityActive = false;
+            
+            // 张量几何可视化系统
+            const tensorGeometry = [];
+            const tensorField = [];
+            const tensorFlowParticles = [];
+            let tensor3DGeometryActive = false;
+            let tensorFieldActive = false;
+            let tensorFlowActive = false;
+            
+            // 哥白尼计划双路径验证系统
+            const reversePathNodes = [];
+            const forwardPathNodes = [];
+            const verificationConnections = [];
+            const dualPathDataFlowParticles = [];
+            let dualPathVerificationActive = false;
+            let reversePathActive = false;
+            let forwardPathActive = false;
+            
+            // 量子涨落可视化系统
+            const quantumFluctuationParticles = [];
+            const vacuumFluctuationWaves = [];
+            const virtualParticles = [];
+            let quantumFluctuationsActive = false;
+            let vacuumFluctuationsActive = false;
+            let virtualParticlesActive = false;
             
             // 节点数量控制
             let nodeCount = 2000;
@@ -720,45 +1007,56 @@
                 energyLevels.length = 0;
                 energyParticles.length = 0;
                 
-                // 创建能级层
+                // 创建能级层 - 基于QSDT理论 E_n = M_H/2^n
                 for (let level = 0; level < energyLevelCount; level++) {
-                    const levelY = 40 - level * 15; // 从高到低排列
-                    const levelRadius = 20 + level * 5; // 层级越高，半径越大
+                    const levelY = 30 - level * 8; // 从高到低排列，调整高度
+                    const levelRadius = 8 + level * 2; // 层级越高，半径越大，但控制在宇宙内
+                    const energyValue = Math.pow(2, level); // 二进制能级：1, 2, 4, 8, 16...
                     
                     // 创建能级环
                     const levelRing = new THREE.Mesh(
-                        new THREE.TorusGeometry(levelRadius, 1, 8, 32),
+                        new THREE.TorusGeometry(levelRadius, 0.8, 8, 32),
                         new THREE.MeshPhongMaterial({ 
                             color: new THREE.Color().setHSL(level / energyLevelCount, 1, 0.5),
                             transparent: true,
-                            opacity: 0.6
+                            opacity: 0.7
                         })
                     );
                     levelRing.position.y = levelY;
+                    levelRing.userData = { level, energyValue, radius: levelRadius };
                     scene.add(levelRing);
                     energyLevels.push(levelRing);
                     
-                    // 创建能级粒子
-                    for (let i = 0; i < 8; i++) {
+                    // 创建能级粒子 - 数量对应能级值
+                    const particleCount = Math.min(energyValue, 16); // 限制最大粒子数
+                    for (let i = 0; i < particleCount; i++) {
                         const particle = new THREE.Mesh(
-                            new THREE.SphereGeometry(0.2, 8, 8),
+                            new THREE.SphereGeometry(0.15, 8, 8),
                             new THREE.MeshPhongMaterial({ 
-                                color: new THREE.Color().setHSL(level / energyLevelCount, 1, 0.7)
+                                color: new THREE.Color().setHSL(level / energyLevelCount, 1, 0.8)
                             })
                         );
-                        const angle = (i / 8) * Math.PI * 2;
+                        const angle = (i / particleCount) * Math.PI * 2;
                         particle.position.set(
                             Math.cos(angle) * levelRadius,
                             levelY,
                             Math.sin(angle) * levelRadius
                         );
-                        particle.userData = { level, angle, radius: levelRadius };
+                        particle.userData = { 
+                            level, 
+                            angle, 
+                            radius: levelRadius, 
+                            energyValue,
+                            fallSpeed: 0,
+                            targetLevel: level,
+                            isFalling: false
+                        };
                         scene.add(particle);
                         energyParticles.push(particle);
                     }
                 }
                 energyWaterfallActive = true;
-                document.getElementById('info').textContent = `创建了${energyLevelCount}层能级瀑布！`;
+                document.getElementById('info').textContent = `创建了${energyLevelCount}层二进制能级瀑布！能量级联：${Math.pow(2, energyLevelCount-1)}`;
             }
             
             function updateEnergyWaterfall() {
@@ -772,10 +1070,10 @@
                 // 清除现有的哥白尼闭环
                 copernicusNodes.forEach(node => scene.remove(node));
                 copernicusConnections.forEach(conn => scene.remove(conn));
-                dataFlowParticles.forEach(particle => scene.remove(particle));
+                copernicusDataFlowParticles.forEach(particle => scene.remove(particle));
                 copernicusNodes.length = 0;
                 copernicusConnections.length = 0;
-                dataFlowParticles.length = 0;
+                copernicusDataFlowParticles.length = 0;
                 
                 // 创建哥白尼闭环节点：反推-正推-验证
                 const nodePositions = [
@@ -1161,7 +1459,7 @@
                 scanRange = parseFloat(document.getElementById('scanRange').value);
             }
             
-            // 重置视角
+            // 重置视角和所有元素
             function resetView() {
                 // 重置所有视角参数
                 mouseWheelZoom = 80;
@@ -1173,12 +1471,145 @@
                 sphereAngleY = 0;
                 sphereRadius = 100;
                 
-                // 重置到正面视角
-                setView('front');
+                // 重置到自由视角
+                setView('free');
                 camera.position.set(0, 0, 80);
                 camera.lookAt(0, 0, 0);
                 
-                document.getElementById('info').textContent = '视角已重置到正面视角';
+                // 清除所有理论元素
+                clearAllElements();
+                
+                // 重新生成基础网络
+                generateMotherUniverse();
+                
+                document.getElementById('info').textContent = '已重置到默认状态：基础量子空间网络（自由视角模式）';
+            }
+            
+            // 清除所有理论元素
+            function clearAllElements() {
+                // 清除强大存在
+                powerfulBeings.forEach(being => scene.remove(being));
+                powerfulInfluences.forEach(influence => scene.remove(influence));
+                powerfulBeings.length = 0;
+                powerfulInfluences.length = 0;
+                
+                // 清除能级瀑布
+                energyLevels.forEach(level => scene.remove(level));
+                energyParticles.forEach(particle => scene.remove(particle));
+                energyLevels.length = 0;
+                energyParticles.length = 0;
+                energyWaterfallActive = false;
+                
+                // 清除哥白尼闭环
+                copernicusNodes.forEach(node => scene.remove(node));
+                copernicusConnections.forEach(conn => scene.remove(conn));
+                copernicusDataFlowParticles.forEach(particle => scene.remove(particle));
+                copernicusNodes.length = 0;
+                copernicusConnections.length = 0;
+                copernicusDataFlowParticles.length = 0;
+                copernicusLoopActive = false;
+                
+                // 清除意识觉醒
+                consciousnessNodes.forEach(node => scene.remove(node));
+                consciousnessConnections.forEach(conn => scene.remove(conn));
+                awakeningParticles.forEach(particle => scene.remove(particle));
+                consciousnessNodes.length = 0;
+                consciousnessConnections.length = 0;
+                awakeningParticles.length = 0;
+                consciousnessActive = false;
+                
+                // 清除时间箭头
+                timeArrow.forEach(arrow => scene.remove(arrow));
+                entropyParticles.forEach(particle => scene.remove(particle));
+                timeArrow.length = 0;
+                entropyParticles.length = 0;
+                timeArrowActive = false;
+                
+                // 清除量子纠缠
+                entanglementPairs.forEach(pair => {
+                    scene.remove(pair.particle1);
+                    scene.remove(pair.particle2);
+                });
+                entanglementConnections.forEach(conn => scene.remove(conn));
+                entanglementPairs.length = 0;
+                entanglementConnections.length = 0;
+                entanglementActive = false;
+                
+                // 清除关系重塑
+                reshapingNodes.forEach(node => scene.remove(node));
+                reshapingConnections.forEach(conn => scene.remove(conn));
+                reshapingNodes.length = 0;
+                reshapingConnections.length = 0;
+                reshapingActive = false;
+                
+                // 清除宇宙探测器
+                detector.forEach(d => scene.remove(d));
+                scanBeams.forEach(beam => scene.remove(beam));
+                dataParticles.forEach(particle => scene.remove(particle));
+                detector.length = 0;
+                scanBeams.length = 0;
+                dataParticles.length = 0;
+                detectorActive = false;
+                
+                // 清除观察者
+                observerNodes.forEach(node => scene.remove(node));
+                observerConnections.forEach(conn => scene.remove(conn));
+                observerInfluence.forEach(influence => scene.remove(influence));
+                observerNodes.length = 0;
+                observerConnections.length = 0;
+                observerInfluence.length = 0;
+                observerActive = false;
+                observerMode = false;
+                
+                // 清除内禀能量可视化
+                energySpheres.forEach(sphere => scene.remove(sphere));
+                energyConnections.forEach(conn => scene.remove(conn));
+                energyFlowParticles.forEach(particle => scene.remove(particle));
+                energySpheres.length = 0;
+                energyConnections.length = 0;
+                energyFlowParticles.length = 0;
+                intrinsicEnergyActive = false;
+                energyFlowActive = false;
+                energyDensityActive = false;
+                
+                // 清除张量几何可视化
+                tensorGeometry.forEach(geometry => scene.remove(geometry));
+                tensorField.forEach(field => scene.remove(field));
+                tensorFlowParticles.forEach(particle => scene.remove(particle));
+                tensorGeometry.length = 0;
+                tensorField.length = 0;
+                tensorFlowParticles.length = 0;
+                tensor3DGeometryActive = false;
+                tensorFieldActive = false;
+                tensorFlowActive = false;
+                
+                // 清除哥白尼计划双路径验证
+                reversePathNodes.forEach(node => scene.remove(node));
+                forwardPathNodes.forEach(node => scene.remove(node));
+                verificationConnections.forEach(conn => scene.remove(conn));
+                dualPathDataFlowParticles.forEach(particle => scene.remove(particle));
+                reversePathNodes.length = 0;
+                forwardPathNodes.length = 0;
+                verificationConnections.length = 0;
+                dualPathDataFlowParticles.length = 0;
+                dualPathVerificationActive = false;
+                reversePathActive = false;
+                forwardPathActive = false;
+                
+                // 清除量子涨落可视化
+                quantumFluctuationParticles.forEach(particle => scene.remove(particle));
+                vacuumFluctuationWaves.forEach(wave => scene.remove(wave));
+                virtualParticles.forEach(particle => scene.remove(particle));
+                quantumFluctuationParticles.length = 0;
+                vacuumFluctuationWaves.length = 0;
+                virtualParticles.length = 0;
+                quantumFluctuationsActive = false;
+                vacuumFluctuationsActive = false;
+                virtualParticlesActive = false;
+                
+                // 隐藏所有面板
+                document.getElementById('mathVisualization').style.display = 'none';
+                document.getElementById('detailedGuide').style.display = 'block'; // 保持理论详解显示
             }
             
             // 切换控制面板显示/隐藏
@@ -1209,7 +1640,7 @@
                 }
             }
             
-            // 切换详细说明面板显示/隐藏
+            // 切换理论详解面板显示/隐藏
             function toggleDetailedGuide() {
                 const detailedGuide = document.getElementById('detailedGuide');
                 const toggleButton = document.querySelector('#instructions button:last-child');
@@ -1219,7 +1650,7 @@
                     toggleButton.textContent = '关闭说明';
                 } else {
                     detailedGuide.style.display = 'none';
-                    toggleButton.textContent = '详细说明';
+                    toggleButton.textContent = '理论详解';
                 }
             }
             
@@ -1380,10 +1811,42 @@
                 if (energyWaterfallActive) {
                     energyParticles.forEach((particle, i) => {
                         const userData = particle.userData;
+                        
+                        // 粒子在能级上旋转
                         userData.angle += waterfallSpeed * 0.01;
                         particle.position.x = Math.cos(userData.angle) * userData.radius;
                         particle.position.z = Math.sin(userData.angle) * userData.radius;
-                        particle.position.y += Math.sin(Date.now() * 0.001 + i) * 0.02;
+                        
+                        // 瀑布效果：粒子从高能级向低能级跃迁
+                        if (Math.random() < 0.02 * waterfallSpeed && userData.level > 0) {
+                            // 开始向下一能级跃迁
+                            userData.isFalling = true;
+                            userData.targetLevel = userData.level - 1;
+                            userData.fallSpeed = 0.5;
+                        }
+                        
+                        // 处理粒子跃迁
+                        if (userData.isFalling) {
+                            userData.fallSpeed += 0.1; // 加速下落
+                            particle.position.y -= userData.fallSpeed;
+                            
+                            // 到达目标能级
+                            const targetY = 30 - userData.targetLevel * 8;
+                            if (particle.position.y <= targetY) {
+                                particle.position.y = targetY;
+                                userData.level = userData.targetLevel;
+                                userData.isFalling = false;
+                                userData.fallSpeed = 0;
+                                
+                                // 更新粒子颜色和半径
+                                const newRadius = 8 + userData.targetLevel * 2;
+                                userData.radius = newRadius;
+                                particle.material.color.setHSL(userData.targetLevel / energyLevelCount, 1, 0.8);
+                            }
+                        } else {
+                            // 正常能级上的轻微波动
+                            particle.position.y += Math.sin(Date.now() * 0.001 + i) * 0.01;
+                        }
                     });
                 }
 
@@ -1498,6 +1961,367 @@
                         // 扫描效果
                         particle.material.opacity = 0.8 + Math.sin(phase) * 0.2;
                         particle.rotation.y += detectorSpeed * 0.01;
+                    });
+                }
+                
+                // 实时更新数学结构可视化参数
+                if (document.getElementById('mathVisualization').style.display === 'block') {
+                    updateHamiltonianValues();
+                    updateTensorValues();
+                    updateBetaFunctionValues();
+                    updatePhysicalConstants();
+                }
+                
+                // 观察者动画
+                if (observerActive) {
+                    observerNodes.forEach((observer, i) => {
+                        observer.userData.observationPhase += 0.02;
+                        const phase = observer.userData.observationPhase;
+                        
+                        // 观察者节点旋转和亮度变化
+                        observer.rotation.y += 0.01;
+                        observer.rotation.x += 0.005;
+                        observer.material.opacity = 0.9 + Math.sin(phase) * 0.1;
+                        
+                        // 影响范围动画
+                        if (observerInfluence[i]) {
+                            observerInfluence[i].rotation.y += 0.005;
+                            observerInfluence[i].material.opacity = 0.1 + Math.sin(phase * 0.5) * 0.05;
+                        }
+                    });
+                    
+                    // 观察者模式下的网络影响
+                    if (observerMode) {
+                        updateNetworkBasedOnObservers();
+                    }
+                }
+                
+                // 内禀能量动画
+                if (intrinsicEnergyActive) {
+                    energySpheres.forEach((sphere, i) => {
+                        // 能量球上下浮动
+                        sphere.position.y = sphere.userData.originalY + Math.sin(Date.now() * 0.001 + i) * 0.5;
+                        
+                        // 能量球旋转
+                        sphere.rotation.x += 0.01;
+                        sphere.rotation.y += 0.02;
+                        
+                        // 能量球颜色变化
+                        const energy = sphere.userData.intrinsicEnergy;
+                        const hue = (energy * 0.3 + Date.now() * 0.0001) % 1;
+                        sphere.material.color.setHSL(hue, 1, 0.7);
+                        
+                        // 更新连接线
+                        const connection = energyConnections[i];
+                        if (connection) {
+                            const node = motherNodes[sphere.userData.nodeIndex];
+                            if (node) {
+                                connection.geometry.setFromPoints([
+                                    node.position,
+                                    sphere.position
+                                ]);
+                            }
+                        }
+                    });
+                }
+                
+                // 能量流动动画
+                if (energyFlowActive) {
+                    energyFlowParticles.forEach(particle => {
+                        // 粒子运动
+                        particle.position.add(particle.userData.velocity);
+                        
+                        // 边界检测和反弹
+                        if (Math.abs(particle.position.x) > 30) particle.userData.velocity.x *= -1;
+                        if (Math.abs(particle.position.y) > 30) particle.userData.velocity.y *= -1;
+                        if (Math.abs(particle.position.z) > 30) particle.userData.velocity.z *= -1;
+                        
+                        // 能量影响颜色
+                        const energy = particle.userData.energy;
+                        particle.material.color.setHSL(0.5 + energy * 0.1, 1, 0.7);
+                        
+                        // 能量影响大小
+                        const scale = 0.5 + energy * 0.5;
+                        particle.scale.setScalar(scale);
+                    });
+                }
+                
+                // 张量几何动画
+                if (tensor3DGeometryActive) {
+                    tensorGeometry.forEach((ellipsoid, i) => {
+                        // 张量椭球体旋转
+                        ellipsoid.rotation.x += 0.01;
+                        ellipsoid.rotation.y += 0.02;
+                        ellipsoid.rotation.z += 0.005;
+                        
+                        // 张量分量动态变化
+                        const time = Date.now() * 0.001;
+                        const geometricRelation = ellipsoid.userData.geometricRelation + Math.sin(time + i) * 0.1;
+                        const phaseRelation = ellipsoid.userData.phaseRelation + Math.cos(time * 1.3 + i) * 0.1;
+                        const energyRelation = ellipsoid.userData.energyRelation + Math.sin(time * 0.7 + i) * 0.1;
+                        
+                        // 更新椭球体缩放
+                        ellipsoid.scale.set(
+                            Math.max(0.1, geometricRelation * 2),
+                            Math.max(0.1, Math.abs(phaseRelation) * 2),
+                            Math.max(0.1, energyRelation * 2)
+                        );
+                        
+                        // 更新颜色
+                        const hue = (geometricRelation + phaseRelation + energyRelation) / 3 * 0.3;
+                        ellipsoid.material.color.setHSL(hue, 1, 0.7);
+                    });
+                }
+                
+                // 张量场动画
+                if (tensorFieldActive) {
+                    tensorField.forEach((arrow, i) => {
+                        // 场向量旋转
+                        arrow.rotation.y += 0.01;
+                        
+                        // 场强度变化
+                        const time = Date.now() * 0.001;
+                        const fieldStrength = arrow.userData.fieldStrength + Math.sin(time + i) * 0.1;
+                        
+                        // 更新箭头长度
+                        const newLength = Math.max(0.5, fieldStrength * 3);
+                        arrow.scale.y = newLength / 3; // 原始长度为3
+                        
+                        // 更新颜色
+                        arrow.material.color.setHSL(fieldStrength * 0.3, 1, 0.7);
+                    });
+                }
+                
+                // 张量流动画
+                if (tensorFlowActive) {
+                    tensorFlowParticles.forEach(particle => {
+                        // 粒子运动
+                        particle.position.add(particle.userData.velocity);
+                        
+                        // 张量流相位变化
+                        particle.userData.flowPhase += 0.02;
+                        
+                        // 基于张量值的螺旋运动
+                        const tensorValue = particle.userData.tensorValue;
+                        const phase = particle.userData.flowPhase;
+                        
+                        particle.position.x += Math.sin(phase) * tensorValue * 0.01;
+                        particle.position.y += Math.cos(phase) * tensorValue * 0.01;
+                        particle.position.z += Math.sin(phase * 0.5) * tensorValue * 0.005;
+                        
+                        // 边界检测
+                        if (Math.abs(particle.position.x) > 30) particle.userData.velocity.x *= -1;
+                        if (Math.abs(particle.position.y) > 30) particle.userData.velocity.y *= -1;
+                        if (Math.abs(particle.position.z) > 30) particle.userData.velocity.z *= -1;
+                        
+                        // 张量值影响颜色和大小
+                        particle.material.color.setHSL(0.1 + tensorValue * 0.1, 1, 0.7);
+                        const scale = 0.5 + tensorValue * 0.5;
+                        particle.scale.setScalar(scale);
+                    });
+                }
+                
+                // 哥白尼计划双路径验证动画
+                if (dualPathVerificationActive) {
+                    // 反推路径节点动画
+                    reversePathNodes.forEach((node, i) => {
+                        node.userData.verificationPhase += 0.02;
+                        const phase = node.userData.verificationPhase;
+                        
+                        // 节点旋转
+                        node.rotation.y += 0.01;
+                        node.rotation.x += 0.005;
+                        
+                        // 节点亮度变化
+                        node.material.opacity = 0.8 + Math.sin(phase) * 0.2;
+                        
+                        // 节点上下浮动
+                        node.position.y = Math.sin(phase) * 2;
+                    });
+                    
+                    // 正推路径节点动画
+                    forwardPathNodes.forEach((node, i) => {
+                        node.userData.verificationPhase += 0.02;
+                        const phase = node.userData.verificationPhase;
+                        
+                        // 节点旋转
+                        node.rotation.y += 0.01;
+                        node.rotation.x += 0.005;
+                        
+                        // 节点亮度变化
+                        node.material.opacity = 0.8 + Math.sin(phase) * 0.2;
+                        
+                        // 节点上下浮动
+                        node.position.y = Math.sin(phase) * 2;
+                    });
+                    
+                    // 验证连接线动画
+                    verificationConnections.forEach((connection, i) => {
+                        const reverseNode = reversePathNodes[i];
+                        const forwardNode = forwardPathNodes[i];
+                        
+                        // 更新连接线位置
+                        connection.geometry.setFromPoints([
+                            reverseNode.position,
+                            forwardNode.position
+                        ]);
+                        
+                        // 连接线闪烁
+                        connection.material.opacity = 0.6 + Math.sin(Date.now() * 0.002 + i) * 0.3;
+                    });
+                    
+                    // 数据流粒子动画
+                    dualPathDataFlowParticles.forEach((particle, i) => {
+                        const pathNodes = particle.userData.pathType === 'reverse' ? reversePathNodes : forwardPathNodes;
+                        const currentNode = particle.userData.currentNode;
+                        const nextNode = (currentNode + 1) % pathNodes.length;
+                        
+                        const currentPos = pathNodes[currentNode].position;
+                        const nextPos = pathNodes[nextNode].position;
+                        
+                        // 粒子在路径上移动
+                        const progress = (Date.now() * 0.001 * particle.userData.flowSpeed) % 1;
+                        particle.position.lerpVectors(currentPos, nextPos, progress);
+                        
+                        // 粒子到达下一个节点时更新
+                        if (progress > 0.95) {
+                            particle.userData.currentNode = nextNode;
+                        }
+                        
+                        // 粒子旋转
+                        particle.rotation.y += 0.05;
+                        particle.rotation.x += 0.02;
+                    });
+                }
+                
+                // 单独的反推路径动画
+                if (reversePathActive) {
+                    reversePathNodes.forEach((node, i) => {
+                        node.userData.verificationPhase += 0.02;
+                        const phase = node.userData.verificationPhase;
+                        
+                        node.rotation.y += 0.01;
+                        node.material.opacity = 0.8 + Math.sin(phase) * 0.2;
+                        node.position.y = Math.sin(phase) * 2;
+                    });
+                }
+                
+                // 单独的正推路径动画
+                if (forwardPathActive) {
+                    forwardPathNodes.forEach((node, i) => {
+                        node.userData.verificationPhase += 0.02;
+                        const phase = node.userData.verificationPhase;
+                        
+                        node.rotation.y += 0.01;
+                        node.material.opacity = 0.8 + Math.sin(phase) * 0.2;
+                        node.position.y = Math.sin(phase) * 2;
+                    });
+                }
+                
+                // 量子涨落动画
+                if (quantumFluctuationsActive) {
+                    quantumFluctuationParticles.forEach((particle, i) => {
+                        const userData = particle.userData;
+                        userData.fluctuationPhase += userData.fluctuationFrequency * 0.02;
+                        
+                        // 量子涨落运动
+                        const phase = userData.fluctuationPhase;
+                        const amplitude = userData.fluctuationAmplitude;
+                        
+                        // 基于量子态的涨落模式
+                        if (userData.quantumState === 'excited') {
+                            // 激发态：更大的涨落
+                            particle.position.x = userData.originalPosition.x + Math.sin(phase) * amplitude * 2;
+                            particle.position.y = userData.originalPosition.y + Math.cos(phase * 1.3) * amplitude * 2;
+                            particle.position.z = userData.originalPosition.z + Math.sin(phase * 0.7) * amplitude * 2;
+                        } else {
+                            // 基态：较小的涨落
+                            particle.position.x = userData.originalPosition.x + Math.sin(phase) * amplitude * 0.5;
+                            particle.position.y = userData.originalPosition.y + Math.cos(phase * 1.3) * amplitude * 0.5;
+                            particle.position.z = userData.originalPosition.z + Math.sin(phase * 0.7) * amplitude * 0.5;
+                        }
+                        
+                        // 量子态随机切换
+                        if (Math.random() < 0.001) {
+                            userData.quantumState = userData.quantumState === 'excited' ? 'ground' : 'excited';
+                        }
+                        
+                        // 颜色变化
+                        const hue = (userData.quantumState === 'excited' ? 0.8 : 0.2) + Math.sin(phase) * 0.1;
+                        particle.material.color.setHSL(hue, 1, 0.7);
+                        
+                        // 透明度变化
+                        particle.material.opacity = 0.6 + Math.sin(phase) * 0.3;
+                    });
+                }
+                
+                // 真空涨落动画
+                if (vacuumFluctuationsActive) {
+                    vacuumFluctuationWaves.forEach((wave, i) => {
+                        const userData = wave.userData;
+                        userData.wavePhase += userData.waveFrequency * 0.02;
+                        
+                        // 波面变形
+                        const positions = wave.geometry.attributes.position.array;
+                        const phase = userData.wavePhase;
+                        const amplitude = userData.waveAmplitude;
+                        
+                        for (let j = 0; j < positions.length; j += 3) {
+                            const x = positions[j];
+                            const y = positions[j + 1];
+                            const z = positions[j + 2];
+                            
+                            // 波面高度变化
+                            positions[j + 2] = z + Math.sin(x * 0.5 + phase) * Math.cos(y * 0.5 + phase) * amplitude;
+                        }
+                        
+                        wave.geometry.attributes.position.needsUpdate = true;
+                        
+                        // 波面颜色变化
+                        const hue = 0.6 + Math.sin(phase) * 0.2;
+                        wave.material.color.setHSL(hue, 1, 0.5);
+                        
+                        // 透明度变化
+                        wave.material.opacity = 0.3 + Math.sin(phase) * 0.2;
+                    });
+                }
+                
+                // 虚粒子动画
+                if (virtualParticlesActive) {
+                    virtualParticles.forEach((particle, i) => {
+                        const userData = particle.userData;
+                        userData.age += 0.01;
+                        
+                        // 虚粒子寿命管理
+                        if (userData.age > userData.lifetime) {
+                            // 虚粒子湮灭
+                            scene.remove(particle);
+                            virtualParticles.splice(i, 1);
+                            
+                            // 如果伙伴粒子还存在，也移除
+                            if (userData.partner && virtualParticles.includes(userData.partner)) {
+                                scene.remove(userData.partner);
+                                const partnerIndex = virtualParticles.indexOf(userData.partner);
+                                virtualParticles.splice(partnerIndex, 1);
+                            }
+                            return;
+                        }
+                        
+                        // 虚粒子运动
+                        const lifetimeRatio = userData.age / userData.lifetime;
+                        const oscillation = Math.sin(lifetimeRatio * Math.PI * 4) * (1 - lifetimeRatio);
+                        
+                        particle.position.y += oscillation * 0.1;
+                        particle.rotation.y += 0.05;
+                        particle.rotation.x += 0.02;
+                        
+                        // 虚粒子颜色变化（基于寿命）
+                        const alpha = 1 - lifetimeRatio;
+                        particle.material.opacity = alpha * 0.8;
+                        
+                        // 虚粒子大小变化
+                        const scale = 0.5 + (1 - lifetimeRatio) * 0.5;
+                        particle.scale.setScalar(scale);
                     });
                 }
 
@@ -1655,6 +2479,63 @@
                 } else if (event.key === 'r' || event.key === 'R') {
                     // R键：重置视角
                     resetView();
+                } else if (event.key === 'm' || event.key === 'M') {
+                    // M键：隐藏/显示数学结构可视化
+                    toggleMathVisualization();
+                } else if (event.key === '1') {
+                    // 数字1：显示哈密顿量矩阵
+                    showHamiltonianMatrix();
+                } else if (event.key === '2') {
+                    // 数字2：显示关系张量
+                    showTensorVisualization();
+                } else if (event.key === '3') {
+                    // 数字3：显示贝塔函数
+                    showBetaFunction();
+                } else if (event.key === '4') {
+                    // 数字4：显示物理常数
+                    showPhysicalConstants();
+                } else if (event.key === 'o' || event.key === 'O') {
+                    // O键：创建观察者节点
+                    createObserverNode();
+                } else if (event.key === 'p' || event.key === 'P') {
+                    // P键：激活观察者模式
+                    activateObserverMode();
+                } else if (event.key === 'e' || event.key === 'E') {
+                    // E键：显示内禀能量
+                    showIntrinsicEnergy();
+                } else if (event.key === 'f' || event.key === 'F') {
+                    // F键：显示能量流动
+                    showEnergyFlow();
+                } else if (event.key === 'd' || event.key === 'D') {
+                    // D键：显示能量密度
+                    showEnergyDensity();
+                } else if (event.key === 't' || event.key === 'T') {
+                    // T键：显示3D张量几何
+                    showTensor3DGeometry();
+                } else if (event.key === 'y' || event.key === 'Y') {
+                    // Y键：显示张量场
+                    showTensorField();
+                } else if (event.key === 'u' || event.key === 'U') {
+                    // U键：显示张量流
+                    showTensorFlow();
+                } else if (event.key === 'c' || event.key === 'C') {
+                    // C键：显示双路径验证
+                    showDualPathVerification();
+                } else if (event.key === 'v' || event.key === 'V') {
+                    // V键：显示反推路径
+                    showReversePath();
+                } else if (event.key === 'b' || event.key === 'B') {
+                    // B键：显示正推路径
+                    showForwardPath();
+                } else if (event.key === 'q' || event.key === 'Q') {
+                    // Q键：显示量子涨落
+                    showQuantumFluctuations();
+                } else if (event.key === 'w' || event.key === 'W') {
+                    // W键：显示真空涨落
+                    showVacuumFluctuations();
+                } else if (event.key === 'x' || event.key === 'X') {
+                    // X键：显示虚粒子
+                    showVirtualParticles();
                 }
             });
 
@@ -1665,6 +2546,851 @@
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
 
+            // 数学结构可视化函数
+            function toggleMathVisualization() {
+                const mathPanel = document.getElementById('mathVisualization');
+                if (mathPanel.style.display === 'none') {
+                    mathPanel.style.display = 'block';
+                } else {
+                    mathPanel.style.display = 'none';
+                }
+            }
+            
+            function showHamiltonianMatrix() {
+                const mathPanel = document.getElementById('mathVisualization');
+                const hamiltonianDisplay = document.getElementById('hamiltonianDisplay');
+                
+                mathPanel.style.display = 'block';
+                hamiltonianDisplay.style.display = 'block';
+                
+                // 动态更新哈密顿量参数
+                updateHamiltonianValues();
+                document.getElementById('info').textContent = '显示哈密顿量矩阵 H_dyn';
+            }
+            
+            function showTensorVisualization() {
+                const mathPanel = document.getElementById('mathVisualization');
+                const tensorDisplay = document.getElementById('tensorDisplay');
+                
+                mathPanel.style.display = 'block';
+                tensorDisplay.style.display = 'block';
+                
+                // 动态更新张量参数
+                updateTensorValues();
+                document.getElementById('info').textContent = '显示关系张量 T_ij';
+            }
+            
+            function showBetaFunction() {
+                const mathPanel = document.getElementById('mathVisualization');
+                const betaDisplay = document.getElementById('betaFunctionDisplay');
+                
+                mathPanel.style.display = 'block';
+                betaDisplay.style.display = 'block';
+                
+                // 动态更新贝塔函数参数
+                updateBetaFunctionValues();
+                document.getElementById('info').textContent = '显示贝塔函数演化';
+            }
+            
+            function showPhysicalConstants() {
+                const mathPanel = document.getElementById('mathVisualization');
+                const constantsDisplay = document.getElementById('physicalConstantsDisplay');
+                
+                mathPanel.style.display = 'block';
+                constantsDisplay.style.display = 'block';
+                
+                // 动态更新物理常数
+                updatePhysicalConstants();
+                document.getElementById('info').textContent = '显示物理常数涌现';
+            }
+            
+            // 动态更新函数
+            function updateHamiltonianValues() {
+                const couplingValue = document.getElementById('couplingValue');
+                const localEnergy = document.getElementById('localEnergy');
+                const fluctuationValue = document.getElementById('fluctuationValue');
+                
+                // 基于网络状态计算参数
+                const nodeCount = motherNodes.length;
+                const avgCoupling = Math.max(0.1, 0.5 - (nodeCount - 100) / 1000);
+                const avgEnergy = 1.0 + Math.sin(Date.now() * 0.001) * 0.2;
+                const fluctuation = 0.1 + Math.sin(Date.now() * 0.002) * 0.05;
+                
+                if (couplingValue) couplingValue.textContent = avgCoupling.toFixed(3);
+                if (localEnergy) localEnergy.textContent = avgEnergy.toFixed(3);
+                if (fluctuationValue) fluctuationValue.textContent = fluctuation.toFixed(3);
+            }
+            
+            function updateTensorValues() {
+                const geometricRelation = document.getElementById('geometricRelation');
+                const phaseRelation = document.getElementById('phaseRelation');
+                const energyRelation = document.getElementById('energyRelation');
+                
+                // 基于网络几何计算张量分量
+                const geometric = 1.0 + Math.sin(Date.now() * 0.001) * 0.1;
+                const phase = Math.sin(Date.now() * 0.002) * Math.PI;
+                const energy = 0.5 + Math.sin(Date.now() * 0.0015) * 0.2;
+                
+                if (geometricRelation) geometricRelation.textContent = geometric.toFixed(3);
+                if (phaseRelation) phaseRelation.textContent = phase.toFixed(3);
+                if (energyRelation) energyRelation.textContent = energy.toFixed(3);
+            }
+            
+            function updateBetaFunctionValues() {
+                const energyScale = document.getElementById('energyScale');
+                const fluctuationStrength = document.getElementById('fluctuationStrength');
+                const betaRate = document.getElementById('betaRate');
+                
+                // 基于当前网络状态计算贝塔函数参数
+                const scale = 100 + Math.sin(Date.now() * 0.0005) * 10;
+                const strength = 0.2 + Math.sin(Date.now() * 0.001) * 0.1;
+                const rate = 0.05 + Math.sin(Date.now() * 0.0015) * 0.02;
+                
+                if (energyScale) energyScale.textContent = scale.toFixed(1);
+                if (fluctuationStrength) fluctuationStrength.textContent = strength.toFixed(3);
+                if (betaRate) betaRate.textContent = rate.toFixed(3);
+            }
+            
+            function updatePhysicalConstants() {
+                const lightSpeed = document.getElementById('lightSpeed');
+                const restMass = document.getElementById('restMass');
+                const gravitationalConstant = document.getElementById('gravitationalConstant');
+                const planckConstant = document.getElementById('planckConstant');
+                const fineStructureConstant = document.getElementById('fineStructureConstant');
+                const electronMass = document.getElementById('electronMass');
+                const protonMass = document.getElementById('protonMass');
+                const neutronMass = document.getElementById('neutronMass');
+                const weakCoupling = document.getElementById('weakCoupling');
+                const strongCoupling = document.getElementById('strongCoupling');
+                
+                // 基于QSDT公式计算物理常数
+                const time = Date.now() * 0.001;
+                const quantumFluctuation = 0.1 + Math.sin(time * 0.1) * 0.05;
+                
+                const c = 299792458; // 光速常数
+                const mass = 0.5 + Math.sin(time) * 0.1;
+                const G = 6.67e-11; // 引力常数
+                const hbar = 1.05e-34; // 普朗克常数
+                const alpha = 0.007297 + quantumFluctuation * 0.001; // 精细结构常数
+                const m_e = 0.511 + quantumFluctuation * 0.01; // 电子质量
+                const m_p = 938.3 + quantumFluctuation * 0.1; // 质子质量
+                const m_n = 939.6 + quantumFluctuation * 0.1; // 中子质量
+                const g_W = 0.65 + quantumFluctuation * 0.05; // 弱相互作用常数
+                const g_s = 1.2 + quantumFluctuation * 0.1; // 强相互作用常数
+                
+                if (lightSpeed) lightSpeed.textContent = c.toExponential(2);
+                if (restMass) restMass.textContent = mass.toFixed(3);
+                if (gravitationalConstant) gravitationalConstant.textContent = G.toExponential(2);
+                if (planckConstant) planckConstant.textContent = hbar.toExponential(2);
+                if (fineStructureConstant) fineStructureConstant.textContent = alpha.toFixed(6);
+                if (electronMass) electronMass.textContent = m_e.toFixed(3);
+                if (protonMass) protonMass.textContent = m_p.toFixed(1);
+                if (neutronMass) neutronMass.textContent = m_n.toFixed(1);
+                if (weakCoupling) weakCoupling.textContent = g_W.toFixed(3);
+                if (strongCoupling) strongCoupling.textContent = g_s.toFixed(3);
+            }
+            
+            // 观察者系统函数
+            function createObserverNode() {
+                // 清除现有的观察者
+                observerNodes.forEach(node => scene.remove(node));
+                observerConnections.forEach(conn => scene.remove(conn));
+                observerInfluence.forEach(influence => scene.remove(influence));
+                observerNodes.length = 0;
+                observerConnections.length = 0;
+                observerInfluence.length = 0;
+                
+                // 创建观察者节点
+                const observerNode = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.8, 16, 16),
+                    new THREE.MeshPhongMaterial({ 
+                        color: 0xff00ff, 
+                        shininess: 100,
+                        transparent: true,
+                        opacity: 0.9
+                    })
+                );
+                observerNode.position.set(
+                    (Math.random() - 0.5) * 40,
+                    (Math.random() - 0.5) * 40,
+                    (Math.random() - 0.5) * 40
+                );
+                observerNode.userData = { 
+                    observerId: observerCount++,
+                    influenceRadius: observerInfluenceRange,
+                    observationPhase: 0,
+                    isActive: true
+                };
+                scene.add(observerNode);
+                observerNodes.push(observerNode);
+                
+                // 创建观察者影响范围
+                const influenceSphere = new THREE.Mesh(
+                    new THREE.SphereGeometry(observerInfluenceRange, 16, 16),
+                    new THREE.MeshPhongMaterial({ 
+                        color: 0xff00ff, 
+                        transparent: true,
+                        opacity: 0.1,
+                        wireframe: true
+                    })
+                );
+                influenceSphere.position.copy(observerNode.position);
+                scene.add(influenceSphere);
+                observerInfluence.push(influenceSphere);
+                
+                observerActive = true;
+                document.getElementById('info').textContent = `创建观察者节点 #${observerNode.userData.observerId}`;
+            }
+            
+            function activateObserverMode() {
+                observerMode = !observerMode;
+                if (observerMode) {
+                    document.getElementById('info').textContent = '观察者模式激活：观察改变网络状态';
+                    // 激活观察者模式时，网络会根据观察者位置调整
+                    updateNetworkBasedOnObservers();
+                } else {
+                    document.getElementById('info').textContent = '观察者模式关闭';
+                }
+            }
+            
+            function showObserverInfluence() {
+                // 显示观察者对网络的影响
+                if (observerNodes.length === 0) {
+                    document.getElementById('info').textContent = '请先创建观察者节点';
+                    return;
+                }
+                
+                // 创建观察者与网络节点的连接
+                observerNodes.forEach((observer, i) => {
+                    const nearbyNodes = motherNodes.filter(node => 
+                        node.position.distanceTo(observer.position) < observerInfluenceRange
+                    );
+                    
+                    nearbyNodes.forEach(node => {
+                        const geometry = new THREE.BufferGeometry().setFromPoints([
+                            observer.position,
+                            node.position
+                        ]);
+                        const connection = new THREE.Line(geometry, new THREE.LineBasicMaterial({ 
+                            color: 0xff00ff, 
+                            transparent: true, 
+                            opacity: 0.3 
+                        }));
+                        scene.add(connection);
+                        observerConnections.push(connection);
+                    });
+                });
+                
+                document.getElementById('info').textContent = `显示观察者影响：${observerConnections.length}个连接`;
+            }
+            
+            function updateNetworkBasedOnObservers() {
+                if (!observerMode) return;
+                
+                // 观察者影响网络节点的行为
+                motherNodes.forEach(node => {
+                    observerNodes.forEach(observer => {
+                        const distance = node.position.distanceTo(observer.position);
+                        if (distance < observerInfluenceRange) {
+                            // 观察者影响：节点向观察者方向轻微移动
+                            const direction = new THREE.Vector3()
+                                .subVectors(observer.position, node.position)
+                                .normalize()
+                                .multiplyScalar(0.01);
+                            node.position.add(direction);
+                            
+                            // 观察者影响：改变节点颜色
+                            const influence = 1 - (distance / observerInfluenceRange);
+                            node.material.color.setHSL(0.3, 1, 0.5 + influence * 0.5);
+                        }
+                    });
+                });
+            }
+            
+            // 内禀能量可视化函数
+            function showIntrinsicEnergy() {
+                // 清除现有的能量可视化
+                energySpheres.forEach(sphere => scene.remove(sphere));
+                energyConnections.forEach(conn => scene.remove(conn));
+                energySpheres.length = 0;
+                energyConnections.length = 0;
+                
+                // 为每个网络节点创建内禀能量球
+                motherNodes.forEach((node, i) => {
+                    // 计算内禀能量 E_i (基于QSDT理论)
+                    const intrinsicEnergy = 1.0 + Math.sin(i * 0.1) * 0.5; // 模拟内禀能量变化
+                    const energyRadius = 0.2 + intrinsicEnergy * 0.3; // 能量越大，球体越大
+                    
+                    // 创建能量球
+                    const energySphere = new THREE.Mesh(
+                        new THREE.SphereGeometry(energyRadius, 8, 8),
+                        new THREE.MeshPhongMaterial({ 
+                            color: new THREE.Color().setHSL(intrinsicEnergy * 0.3, 1, 0.7),
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    
+                    // 能量球位置在节点上方
+                    energySphere.position.copy(node.position);
+                    energySphere.position.y += 2;
+                    energySphere.userData = { 
+                        nodeIndex: i, 
+                        intrinsicEnergy: intrinsicEnergy,
+                        originalY: energySphere.position.y
+                    };
+                    
+                    scene.add(energySphere);
+                    energySpheres.push(energySphere);
+                    
+                    // 创建能量连接线
+                    const geometry = new THREE.BufferGeometry().setFromPoints([
+                        node.position,
+                        energySphere.position
+                    ]);
+                    const connection = new THREE.Line(geometry, new THREE.LineBasicMaterial({ 
+                        color: new THREE.Color().setHSL(intrinsicEnergy * 0.3, 1, 0.7),
+                        transparent: true, 
+                        opacity: 0.6 
+                    }));
+                    scene.add(connection);
+                    energyConnections.push(connection);
+                });
+                
+                intrinsicEnergyActive = true;
+                document.getElementById('info').textContent = `显示内禀能量：${energySpheres.length}个能量球`;
+            }
+            
+            function showEnergyFlow() {
+                // 清除现有的能量流动
+                energyFlowParticles.forEach(particle => scene.remove(particle));
+                energyFlowParticles.length = 0;
+                
+                // 创建能量流动粒子
+                for (let i = 0; i < 20; i++) {
+                    const particle = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.1, 6, 6),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0x00ffff,
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    
+                    // 随机起始位置
+                    particle.position.set(
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60
+                    );
+                    
+                    particle.userData = {
+                        velocity: new THREE.Vector3(
+                            (Math.random() - 0.5) * 0.1,
+                            (Math.random() - 0.5) * 0.1,
+                            (Math.random() - 0.5) * 0.1
+                        ),
+                        energy: Math.random() * 2 + 0.5
+                    };
+                    
+                    scene.add(particle);
+                    energyFlowParticles.push(particle);
+                }
+                
+                energyFlowActive = true;
+                document.getElementById('info').textContent = `显示能量流动：${energyFlowParticles.length}个流动粒子`;
+            }
+            
+            function showEnergyDensity() {
+                // 基于网络密度显示能量密度
+                const densityRegions = [];
+                const gridSize = 10;
+                
+                for (let x = -30; x < 30; x += gridSize) {
+                    for (let y = -30; y < 30; y += gridSize) {
+                        for (let z = -30; z < 30; z += gridSize) {
+                            // 计算该区域的节点密度
+                            const regionCenter = new THREE.Vector3(x, y, z);
+                            let nodeCount = 0;
+                            
+                            motherNodes.forEach(node => {
+                                if (node.position.distanceTo(regionCenter) < gridSize) {
+                                    nodeCount++;
+                                }
+                            });
+                            
+                            if (nodeCount > 0) {
+                                const density = nodeCount / 10; // 归一化密度
+                                const densityBox = new THREE.Mesh(
+                                    new THREE.BoxGeometry(gridSize * 0.8, gridSize * 0.8, gridSize * 0.8),
+                                    new THREE.MeshPhongMaterial({ 
+                                        color: new THREE.Color().setHSL(0.6, 1, 0.5 + density * 0.3),
+                                        transparent: true,
+                                        opacity: 0.3 + density * 0.4
+                                    })
+                                );
+                                densityBox.position.copy(regionCenter);
+                                scene.add(densityBox);
+                                densityRegions.push(densityBox);
+                            }
+                        }
+                    }
+                }
+                
+                energyDensityActive = true;
+                document.getElementById('info').textContent = `显示能量密度：${densityRegions.length}个密度区域`;
+            }
+            
+            // 张量几何可视化函数
+            function showTensor3DGeometry() {
+                // 清除现有的张量几何
+                tensorGeometry.forEach(geometry => scene.remove(geometry));
+                tensorGeometry.length = 0;
+                
+                // 为每个网络连接创建3D张量几何
+                motherEdges.forEach((edge, i) => {
+                    const startNode = motherNodes[edge.startIdx];
+                    const endNode = motherNodes[edge.endIdx];
+                    
+                    // 计算张量分量 T_ij = R_ij ⊗ θ_ij ⊗ J_ij
+                    const distance = startNode.position.distanceTo(endNode.position);
+                    const geometricRelation = 1.0 / (1.0 + distance * 0.1); // R_ij
+                    const phaseRelation = Math.sin(i * 0.1); // θ_ij
+                    const energyRelation = 0.5 + Math.sin(i * 0.2) * 0.3; // J_ij
+                    
+                    // 创建张量椭球体
+                    const tensorScale = new THREE.Vector3(
+                        geometricRelation * 2,
+                        Math.abs(phaseRelation) * 2,
+                        energyRelation * 2
+                    );
+                    
+                    const tensorEllipsoid = new THREE.Mesh(
+                        new THREE.SphereGeometry(1, 8, 8),
+                        new THREE.MeshPhongMaterial({ 
+                            color: new THREE.Color().setHSL(
+                                (geometricRelation + phaseRelation + energyRelation) / 3 * 0.3, 
+                                1, 
+                                0.7
+                            ),
+                            transparent: true,
+                            opacity: 0.6
+                        })
+                    );
+                    
+                    // 张量椭球体位置在连接中点
+                    const midPoint = new THREE.Vector3()
+                        .addVectors(startNode.position, endNode.position)
+                        .multiplyScalar(0.5);
+                    tensorEllipsoid.position.copy(midPoint);
+                    tensorEllipsoid.scale.copy(tensorScale);
+                    
+                    tensorEllipsoid.userData = {
+                        geometricRelation: geometricRelation,
+                        phaseRelation: phaseRelation,
+                        energyRelation: energyRelation,
+                        originalScale: tensorScale.clone()
+                    };
+                    
+                    scene.add(tensorEllipsoid);
+                    tensorGeometry.push(tensorEllipsoid);
+                });
+                
+                tensor3DGeometryActive = true;
+                document.getElementById('info').textContent = `显示3D张量几何：${tensorGeometry.length}个张量椭球`;
+            }
+            
+            function showTensorField() {
+                // 清除现有的张量场
+                tensorField.forEach(field => scene.remove(field));
+                tensorField.length = 0;
+                
+                // 创建张量场网格
+                const gridSize = 8;
+                const fieldSize = 40;
+                
+                for (let x = -fieldSize; x < fieldSize; x += gridSize) {
+                    for (let y = -fieldSize; y < fieldSize; y += gridSize) {
+                        for (let z = -fieldSize; z < fieldSize; z += gridSize) {
+                            const position = new THREE.Vector3(x, y, z);
+                            
+                            // 计算该位置的张量场强度
+                            let fieldStrength = 0;
+                            motherNodes.forEach(node => {
+                                const distance = node.position.distanceTo(position);
+                                if (distance < 20) {
+                                    fieldStrength += 1.0 / (1.0 + distance * 0.1);
+                                }
+                            });
+                            
+                            if (fieldStrength > 0.1) {
+                                // 创建张量场箭头
+                                const arrowLength = fieldStrength * 3;
+                                const arrowGeometry = new THREE.ConeGeometry(0.2, arrowLength, 6);
+                                const arrowMaterial = new THREE.MeshPhongMaterial({ 
+                                    color: new THREE.Color().setHSL(fieldStrength * 0.3, 1, 0.7),
+                                    transparent: true,
+                                    opacity: 0.7
+                                });
+                                
+                                const arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
+                                arrow.position.copy(position);
+                                
+                                // 箭头方向基于局部张量梯度
+                                const gradient = new THREE.Vector3(
+                                    Math.sin(x * 0.1) * fieldStrength,
+                                    Math.cos(y * 0.1) * fieldStrength,
+                                    Math.sin(z * 0.1) * fieldStrength
+                                ).normalize();
+                                
+                                arrow.lookAt(
+                                    position.x + gradient.x * arrowLength,
+                                    position.y + gradient.y * arrowLength,
+                                    position.z + gradient.z * arrowLength
+                                );
+                                
+                                arrow.userData = {
+                                    fieldStrength: fieldStrength,
+                                    gradient: gradient
+                                };
+                                
+                                scene.add(arrow);
+                                tensorField.push(arrow);
+                            }
+                        }
+                    }
+                }
+                
+                tensorFieldActive = true;
+                document.getElementById('info').textContent = `显示张量场：${tensorField.length}个场向量`;
+            }
+            
+            function showTensorFlow() {
+                // 清除现有的张量流
+                tensorFlowParticles.forEach(particle => scene.remove(particle));
+                tensorFlowParticles.length = 0;
+                
+                // 创建张量流粒子
+                for (let i = 0; i < 30; i++) {
+                    const particle = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.15, 6, 6),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0xff6600,
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    
+                    // 随机起始位置
+                    particle.position.set(
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60
+                    );
+                    
+                    particle.userData = {
+                        velocity: new THREE.Vector3(
+                            (Math.random() - 0.5) * 0.05,
+                            (Math.random() - 0.5) * 0.05,
+                            (Math.random() - 0.5) * 0.05
+                        ),
+                        tensorValue: Math.random() * 2 + 0.5,
+                        flowPhase: Math.random() * Math.PI * 2
+                    };
+                    
+                    scene.add(particle);
+                    tensorFlowParticles.push(particle);
+                }
+                
+                tensorFlowActive = true;
+                document.getElementById('info').textContent = `显示张量流：${tensorFlowParticles.length}个流粒子`;
+            }
+            
+            // 哥白尼计划双路径验证函数
+            function showDualPathVerification() {
+                // 清除现有的验证路径
+                reversePathNodes.forEach(node => scene.remove(node));
+                forwardPathNodes.forEach(node => scene.remove(node));
+                verificationConnections.forEach(conn => scene.remove(conn));
+                dualPathDataFlowParticles.forEach(particle => scene.remove(particle));
+                reversePathNodes.length = 0;
+                forwardPathNodes.length = 0;
+                verificationConnections.length = 0;
+                dualPathDataFlowParticles.length = 0;
+                
+                // 创建反推路径节点（红色 - 从实验数据反推）
+                for (let i = 0; i < 6; i++) {
+                    const reverseNode = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.8, 8, 8),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0xff0000,
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    
+                    const angle = (i / 6) * Math.PI * 2;
+                    reverseNode.position.set(
+                        Math.cos(angle) * 25,
+                        0,
+                        Math.sin(angle) * 25
+                    );
+                    
+                    reverseNode.userData = {
+                        pathType: 'reverse',
+                        step: i,
+                        verificationPhase: i * Math.PI / 3
+                    };
+                    
+                    scene.add(reverseNode);
+                    reversePathNodes.push(reverseNode);
+                }
+                
+                // 创建正推路径节点（绿色 - 从理论预测正推）
+                for (let i = 0; i < 6; i++) {
+                    const forwardNode = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.8, 8, 8),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0x00ff00,
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    
+                    const angle = (i / 6) * Math.PI * 2 + Math.PI / 6; // 偏移30度
+                    forwardNode.position.set(
+                        Math.cos(angle) * 25,
+                        0,
+                        Math.sin(angle) * 25
+                    );
+                    
+                    forwardNode.userData = {
+                        pathType: 'forward',
+                        step: i,
+                        verificationPhase: i * Math.PI / 3
+                    };
+                    
+                    scene.add(forwardNode);
+                    forwardPathNodes.push(forwardNode);
+                }
+                
+                // 创建验证连接线
+                for (let i = 0; i < 6; i++) {
+                    const reverseNode = reversePathNodes[i];
+                    const forwardNode = forwardPathNodes[i];
+                    
+                    const geometry = new THREE.BufferGeometry().setFromPoints([
+                        reverseNode.position,
+                        forwardNode.position
+                    ]);
+                    const connection = new THREE.Line(geometry, new THREE.LineBasicMaterial({ 
+                        color: 0xffff00,
+                        transparent: true, 
+                        opacity: 0.6 
+                    }));
+                    scene.add(connection);
+                    verificationConnections.push(connection);
+                }
+                
+                // 创建数据流粒子
+                for (let i = 0; i < 12; i++) {
+                    const particle = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.2, 6, 6),
+                        new THREE.MeshPhongMaterial({ 
+                            color: i < 6 ? 0xff0000 : 0x00ff00,
+                            transparent: true,
+                            opacity: 0.9
+                        })
+                    );
+                    
+                    const pathNodes = i < 6 ? reversePathNodes : forwardPathNodes;
+                    const nodeIndex = i % 6;
+                    particle.position.copy(pathNodes[nodeIndex].position);
+                    
+                    particle.userData = {
+                        pathType: i < 6 ? 'reverse' : 'forward',
+                        currentNode: nodeIndex,
+                        flowSpeed: 0.5 + Math.random() * 0.5
+                    };
+                    
+                    scene.add(particle);
+                    dualPathDataFlowParticles.push(particle);
+                }
+                
+                dualPathVerificationActive = true;
+                document.getElementById('info').textContent = `显示双路径验证：反推路径(红) + 正推路径(绿) + 验证连接(黄)`;
+            }
+            
+            function showReversePath() {
+                // 只显示反推路径
+                forwardPathNodes.forEach(node => scene.remove(node));
+                verificationConnections.forEach(conn => scene.remove(conn));
+                forwardPathNodes.length = 0;
+                verificationConnections.length = 0;
+                
+                reversePathActive = true;
+                forwardPathActive = false;
+                document.getElementById('info').textContent = `显示反推路径：从实验数据反推理论参数`;
+            }
+            
+            function showForwardPath() {
+                // 只显示正推路径
+                reversePathNodes.forEach(node => scene.remove(node));
+                verificationConnections.forEach(conn => scene.remove(conn));
+                reversePathNodes.length = 0;
+                verificationConnections.length = 0;
+                
+                forwardPathActive = true;
+                reversePathActive = false;
+                document.getElementById('info').textContent = `显示正推路径：从理论参数正推物理常数`;
+            }
+            
+            // 量子涨落可视化函数
+            function showQuantumFluctuations() {
+                // 清除现有的量子涨落
+                quantumFluctuationParticles.forEach(particle => scene.remove(particle));
+                quantumFluctuationParticles.length = 0;
+                
+                // 创建量子涨落粒子
+                for (let i = 0; i < 50; i++) {
+                    const particle = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.1, 6, 6),
+                        new THREE.MeshPhongMaterial({ 
+                            color: new THREE.Color().setHSL(Math.random(), 1, 0.7),
+                            transparent: true,
+                            opacity: 0.6
+                        })
+                    );
+                    
+                    // 随机起始位置
+                    particle.position.set(
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60
+                    );
+                    
+                    particle.userData = {
+                        fluctuationPhase: Math.random() * Math.PI * 2,
+                        fluctuationAmplitude: 0.5 + Math.random() * 1.5,
+                        fluctuationFrequency: 0.5 + Math.random() * 2.0,
+                        originalPosition: particle.position.clone(),
+                        quantumState: Math.random() > 0.5 ? 'excited' : 'ground'
+                    };
+                    
+                    scene.add(particle);
+                    quantumFluctuationParticles.push(particle);
+                }
+                
+                quantumFluctuationsActive = true;
+                document.getElementById('info').textContent = `显示量子涨落：${quantumFluctuationParticles.length}个涨落粒子`;
+            }
+            
+            function showVacuumFluctuations() {
+                // 清除现有的真空涨落
+                vacuumFluctuationWaves.forEach(wave => scene.remove(wave));
+                vacuumFluctuationWaves.length = 0;
+                
+                // 创建真空涨落波
+                for (let i = 0; i < 20; i++) {
+                    const wave = new THREE.Mesh(
+                        new THREE.PlaneGeometry(20, 20, 32, 32),
+                        new THREE.MeshPhongMaterial({ 
+                            color: new THREE.Color().setHSL(0.6 + Math.random() * 0.2, 1, 0.5),
+                            transparent: true,
+                            opacity: 0.3,
+                            side: THREE.DoubleSide
+                        })
+                    );
+                    
+                    // 随机位置和方向
+                    wave.position.set(
+                        (Math.random() - 0.5) * 80,
+                        (Math.random() - 0.5) * 80,
+                        (Math.random() - 0.5) * 80
+                    );
+                    wave.rotation.set(
+                        Math.random() * Math.PI,
+                        Math.random() * Math.PI,
+                        Math.random() * Math.PI
+                    );
+                    
+                    wave.userData = {
+                        wavePhase: Math.random() * Math.PI * 2,
+                        waveAmplitude: 0.5 + Math.random() * 1.0,
+                        waveFrequency: 0.2 + Math.random() * 0.8,
+                        originalGeometry: wave.geometry.clone()
+                    };
+                    
+                    scene.add(wave);
+                    vacuumFluctuationWaves.push(wave);
+                }
+                
+                vacuumFluctuationsActive = true;
+                document.getElementById('info').textContent = `显示真空涨落：${vacuumFluctuationWaves.length}个涨落波`;
+            }
+            
+            function showVirtualParticles() {
+                // 清除现有的虚粒子
+                virtualParticles.forEach(particle => scene.remove(particle));
+                virtualParticles.length = 0;
+                
+                // 创建虚粒子对
+                for (let i = 0; i < 15; i++) {
+                    // 虚粒子对
+                    const particle1 = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.15, 8, 8),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0x00ffff,
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    
+                    const particle2 = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.15, 8, 8),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0xff6600,
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    
+                    // 虚粒子对位置
+                    const centerPos = new THREE.Vector3(
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60
+                    );
+                    
+                    const separation = 2 + Math.random() * 4;
+                    particle1.position.copy(centerPos).add(new THREE.Vector3(separation, 0, 0));
+                    particle2.position.copy(centerPos).add(new THREE.Vector3(-separation, 0, 0));
+                    
+                    particle1.userData = {
+                        pairIndex: i,
+                        isVirtual: true,
+                        lifetime: 0.1 + Math.random() * 0.4,
+                        age: 0,
+                        partner: particle2
+                    };
+                    
+                    particle2.userData = {
+                        pairIndex: i,
+                        isVirtual: true,
+                        lifetime: particle1.userData.lifetime,
+                        age: 0,
+                        partner: particle1
+                    };
+                    
+                    scene.add(particle1);
+                    scene.add(particle2);
+                    virtualParticles.push(particle1, particle2);
+                }
+                
+                virtualParticlesActive = true;
+                document.getElementById('info').textContent = `显示虚粒子：${virtualParticles.length}个虚粒子`;
+            }
+            
             // 初始化生成母宇宙
             generateMotherUniverse();
             updatePerformanceHint();
