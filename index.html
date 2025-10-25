@@ -3,9 +3,33 @@
 <head>
     <title>QSDT 量子空间网络 3D 模拟 - 完整理论可视化系统</title>
     <style>
-        body { margin: 0; background: #000; }
-        canvas { display: block; }
-        #controls { position: absolute; top: 10px; left: 10px; color: white; font-family: Arial; max-width: 300px; }
+        html, body { 
+            margin: 0; 
+            padding: 0; 
+            background: #000; 
+            overflow: hidden; /* 防止页面滚动 */
+            height: 100%;
+            width: 100%;
+        }
+        canvas { 
+            display: block; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        #controls { 
+            position: fixed; 
+            top: 10px; 
+            left: 10px; 
+            color: white; 
+            font-family: Arial; 
+            max-width: 300px; 
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+        }
         button { margin: 2px; padding: 6px; background: #333; color: white; border: none; cursor: pointer; font-size: 12px; }
         button:hover { background: #555; }
         #info { margin-top: 8px; font-size: 13px; }
@@ -497,10 +521,24 @@
         try {
             // 初始化场景、相机、渲染器
             const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+            
+            // 获取可视区域尺寸，确保画布完全覆盖
+            const canvasWidth = window.innerWidth;
+            const canvasHeight = window.innerHeight;
+            
+            const camera = new THREE.PerspectiveCamera(75, canvasWidth / canvasHeight, 0.1, 3000);
             const renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(canvasWidth, canvasHeight);
+            renderer.domElement.style.position = 'fixed';
+            renderer.domElement.style.top = '0';
+            renderer.domElement.style.left = '0';
+            renderer.domElement.style.zIndex = '1';
+            renderer.domElement.style.outline = 'none'; // 防止画布获得焦点时的边框
             document.body.appendChild(renderer.domElement);
+            
+            // 防止页面滚动
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
 
             // 添加光影：环境光+点光源，增强真实感
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -2392,7 +2430,10 @@
             let mouseRotationX = 0;
             let mouseRotationY = 0;
             
-            window.addEventListener('wheel', (event) => {
+            // 将鼠标事件绑定到画布而不是window
+            const canvas = renderer.domElement;
+            
+            canvas.addEventListener('wheel', (event) => {
                 event.preventDefault();
                 
                 // 根据滚轮方向调整缩放
@@ -2428,17 +2469,17 @@
             });
             
             // 鼠标拖拽旋转事件
-            window.addEventListener('mousedown', (event) => {
+            canvas.addEventListener('mousedown', (event) => {
                 isMouseDown = true;
                 mouseX = event.clientX;
                 mouseY = event.clientY;
             });
             
-            window.addEventListener('mouseup', () => {
+            canvas.addEventListener('mouseup', () => {
                 isMouseDown = false;
             });
             
-            window.addEventListener('mousemove', (event) => {
+            canvas.addEventListener('mousemove', (event) => {
                 if (isMouseDown && viewMode === 'free') {
                     const deltaX = event.clientX - mouseX;
                     const deltaY = event.clientY - mouseY;
@@ -2541,9 +2582,23 @@
 
             // 窗口自适应
             window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
+                const newWidth = window.innerWidth;
+                const newHeight = window.innerHeight;
+                
+                camera.aspect = newWidth / newHeight;
                 camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setSize(newWidth, newHeight);
+                
+                // 确保画布样式正确
+                renderer.domElement.style.position = 'fixed';
+                renderer.domElement.style.top = '0';
+                renderer.domElement.style.left = '0';
+                renderer.domElement.style.zIndex = '1';
+                renderer.domElement.style.outline = 'none';
+                
+                // 确保页面不滚动
+                document.body.style.overflow = 'hidden';
+                document.documentElement.style.overflow = 'hidden';
             });
 
             // 数学结构可视化函数
