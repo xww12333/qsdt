@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QSDT 量子空间网络 3D 模拟 - 完整理论可视化系统</title>
+    <style>
+        body { margin: 0; background: #000; }
+        canvas { display: block; }
+        #controls { position: absolute; top: 10px; left: 10px; color: white; font-family: Arial; max-width: 300px; }
+        button { margin: 2px; padding: 6px; background: #333; color: white; border: none; cursor: pointer; font-size: 12px; }
+        button:hover { background: #555; }
+        #info { margin-top: 8px; font-size: 13px; }
+        #performance { margin-top: 3px; font-size: 11px; color: #ffff00; }
+        input { margin: 3px; padding: 3px; width: 70px; }
+        label { margin-right: 3px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <div style="margin-bottom: 8px;">
+            <strong>视角控制:</strong><br>
+            <button onclick="setView('front')">正面</button>
+            <button onclick="setView('side')">侧面</button>
+            <button onclick="setView('rotate')">旋转</button>
+            <button onclick="setView('zoom')">缩放</button>
+            <button onclick="setView('free')">自由</button>
+            <button onclick="resetView()">重置</button>
+        </div>
+        
+        <div style="margin-bottom: 8px;">
+            <strong>QSDT理论元素:</strong><br>
+            <button onclick="createPowerfulBeings()">强大存在</button>
+            <button onclick="createEnergyWaterfall()">能级瀑布</button>
+            <button onclick="startCopernicusLoop()">哥白尼闭环</button>
+            <button onclick="createConsciousnessNodes()">意识觉醒</button>
+            <button onclick="createTimeArrow()">时间箭头</button>
+            <button onclick="createQuantumEntanglement()">量子纠缠</button>
+            <button onclick="createRelationshipReshaping()">关系重塑</button>
+            <button onclick="createUniverseDetector()">宇宙探测器</button>
+        </div>
+        
+        <div style="margin-bottom: 8px;">
+            <strong>宇宙操作:</strong><br>
+            <button onclick="generateSubUniverse()">生成子宇宙</button>
+            <button onclick="compressMotherUniverse()">压缩母宇宙</button>
+            <button onclick="toggleParticles()">粒子交互</button>
+        </div>
+        <br>
+        <label for="waveSpeed">波速:</label>
+        <input type="range" id="waveSpeed" min="1" max="10" value="5" step="0.5" oninput="updateWaveParams()">
+        <label for="waveFrequency">频率:</label>
+        <input type="range" id="waveFrequency" min="0.1" max="1" value="0.5" step="0.1" oninput="updateWaveParams()">
+        <label for="waveAmplitude">振幅:</label>
+        <input type="range" id="waveAmplitude" min="0.01" max="0.05" value="0.02" step="0.01" oninput="updateWaveParams()">
+        <br>
+        <label for="zoomScale">手动缩放尺度:</label>
+        <input type="range" id="zoomScale" min="10" max="500" value="80" step="10" oninput="updateZoomScale()">
+        <label for="rotationSpeed">手动旋转速度:</label>
+        <input type="range" id="rotationSpeed" min="0.001" max="0.005" value="0.0015" step="0.0005" oninput="updateRotationSpeed()">
+        <br>
+        <label for="sphereRadius">球体半径:</label>
+        <input type="range" id="sphereRadius" min="50" max="300" value="100" step="10" oninput="updateSphereRadius()">
+        <label for="sphereSpeed">球体滚动速度:</label>
+        <input type="range" id="sphereSpeed" min="0.001" max="0.01" value="0.003" step="0.001" oninput="updateSphereSpeed()">
+        <br>
+        <label for="powerfulCount">强大存在数量:</label>
+        <input type="range" id="powerfulCount" min="1" max="10" value="3" step="1" oninput="updatePowerfulBeings()">
+        <label for="powerfulInfluence">影响力范围:</label>
+        <input type="range" id="powerfulInfluence" min="5" max="30" value="15" step="1" oninput="updatePowerfulBeings()">
+        <br>
+        <label for="energyLevels">能级层数:</label>
+        <input type="range" id="energyLevels" min="3" max="8" value="5" step="1" oninput="updateEnergyWaterfall()">
+        <label for="waterfallSpeed">瀑布速度:</label>
+        <input type="range" id="waterfallSpeed" min="0.5" max="3" value="1.5" step="0.1" oninput="updateEnergyWaterfall()">
+        <br>
+        <label for="loopSpeed">闭环速度:</label>
+        <input type="range" id="loopSpeed" min="0.5" max="5" value="2" step="0.1" oninput="updateCopernicusLoop()">
+        <label for="dataFlow">数据流强度:</label>
+        <input type="range" id="dataFlow" min="1" max="10" value="5" step="1" oninput="updateCopernicusLoop()">
+        <br>
+        <label for="consciousnessCount">意识节点数:</label>
+        <input type="range" id="consciousnessCount" min="3" max="15" value="8" step="1" oninput="updateConsciousnessNodes()">
+        <label for="awakeningSpeed">觉醒速度:</label>
+        <input type="range" id="awakeningSpeed" min="0.5" max="3" value="1.5" step="0.1" oninput="updateConsciousnessNodes()">
+        <br>
+        <label for="timeArrowSpeed">时间箭头速度:</label>
+        <input type="range" id="timeArrowSpeed" min="0.5" max="5" value="2" step="0.1" oninput="updateTimeArrow()">
+        <label for="entropyRate">熵增速率:</label>
+        <input type="range" id="entropyRate" min="0.1" max="2" value="1" step="0.1" oninput="updateTimeArrow()">
+        <br>
+        <label for="entanglementPairs">纠缠对数:</label>
+        <input type="range" id="entanglementPairs" min="2" max="10" value="5" step="1" oninput="updateQuantumEntanglement()">
+        <label for="entanglementStrength">纠缠强度:</label>
+        <input type="range" id="entanglementStrength" min="0.5" max="3" value="1.5" step="0.1" oninput="updateQuantumEntanglement()">
+        <br>
+        <label for="reshapingSpeed">重塑速度:</label>
+        <input type="range" id="reshapingSpeed" min="0.5" max="3" value="1.5" step="0.1" oninput="updateRelationshipReshaping()">
+        <label for="reshapingIntensity">重塑强度:</label>
+        <input type="range" id="reshapingIntensity" min="0.5" max="2" value="1" step="0.1" oninput="updateRelationshipReshaping()">
+        <br>
+        <label for="detectorSpeed">探测器速度:</label>
+        <input type="range" id="detectorSpeed" min="0.5" max="3" value="1.5" step="0.1" oninput="updateUniverseDetector()">
+        <label for="scanRange">扫描范围:</label>
+        <input type="range" id="scanRange" min="10" max="50" value="30" step="5" oninput="updateUniverseDetector()">
+        <br>
+        <label for="nodeCount">节点数量:</label>
+        <input type="range" id="nodeCount" min="20" max="5000" value="2000" step="50" oninput="updateNodeCount()">
+        <button onclick="regenerateNetwork()">重新生成网络</button>
+        <div id="info">当前现象：未选择</div>
+        <div id="performance">性能提示：节点数量 2000，建议保持流畅运行</div>
+    </div>
+    
+    <!-- 右侧使用说明面板 -->
+    <div id="instructions" style="position: absolute; top: 10px; right: 10px; color: white; font-size: 12px; max-width: 200px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 5px; border: 1px solid #333;">
+        <strong>操作说明：</strong><br>
+        • 鼠标滚轮：缩放<br>
+        • 自由视角：拖拽旋转<br>
+        • 点击按钮：切换视角模式<br>
+        • 滑块：调节参数<br>
+        <strong>快捷键：</strong><br>
+        • H键：隐藏/显示控制面板<br>
+        • I键：隐藏/显示说明<br>
+        • R键：重置视角<br>
+        <button onclick="toggleControls()" style="margin-top: 5px; padding: 3px; font-size: 10px; background: #555; color: white; border: none; border-radius: 3px; cursor: pointer;">隐藏控制面板</button>
+        <button onclick="toggleInstructions()" style="margin-top: 3px; padding: 3px; font-size: 10px; background: #555; color: white; border: none; border-radius: 3px; cursor: pointer;">隐藏说明</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script>
+        console.log("加载 Three.js...");
+        try {
+            // 初始化场景、相机、渲染器
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // 添加光影：环境光+点光源，增强真实感
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xffffff, 1);
+            pointLight.position.set(0, 0, 100);
+            scene.add(pointLight);
+
+            // 母宇宙：动态节点数量 (Q_i)
+            const motherNodes = [];
+            const motherEdges = [];
+            const motherMaterials = [];
+            const nodeGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+
+            // 旧的强大存在系统已移除，使用新的强大存在系统
+
+            // 旧的影响力范围和定向激发系统已移除
+
+            // 二进制能级瀑布
+            const cascadeLevels = [];
+            const cascadeEdges = [];
+            const cascadeMaterials = [];
+            const cascadeLevelCount = 11;
+            for (let n = 0; n < cascadeLevelCount; n++) {
+                const levelNodes = [];
+                const levelMaterials = [];
+                const levelNodeCount = Math.min(Math.pow(2, n), 512);
+                for (let i = 0; i < levelNodeCount; i++) {
+                    const material = new THREE.MeshPhongMaterial({ color: 0x00ff00, shininess: 50 });
+                    const node = new THREE.Mesh(nodeGeometry, material);
+                    node.position.set(i * 0.5 - (levelNodeCount * 0.25), n * 5 + 80, 0);
+                    scene.add(node);
+                    levelNodes.push(node);
+                    levelMaterials.push(material);
+                }
+                cascadeLevels.push(levelNodes);
+                cascadeMaterials.push(levelMaterials);
+            }
+
+            // 瀑布效果
+            const cascadeEdgeMaterial = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.8 });
+            for (let n = cascadeLevelCount - 1; n > 0; n--) {
+                for (let i = 0; i < cascadeLevels[n].length; i++) {
+                    const parentIdx = Math.floor(i / 2);
+                    if (parentIdx < cascadeLevels[n-1].length) {
+                        const geometry = new THREE.BufferGeometry().setFromPoints([
+                            cascadeLevels[n][i].position,
+                            cascadeLevels[n-1][parentIdx].position
+                        ]);
+                        const colors = new Float32Array([1, 1, 1, 0, 0, 1]);
+                        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+                        const edge = new THREE.Line(geometry, cascadeEdgeMaterial);
+                        scene.add(edge);
+                        cascadeEdges.push(edge);
+                    }
+                }
+            }
+
+            // 分形结构
+            const fractalEdges = [];
+            function addFractalBranch(startPos, level, maxLevel = 5) {
+                if (level > maxLevel) return;
+                for (let i = 0; i < 2; i++) {
+                    const endPos = startPos.clone().add(new THREE.Vector3(
+                        (Math.random() - 0.5) * 5,
+                        level * 2,
+                        (Math.random() - 0.5) * 5
+                    ));
+                    const geometry = new THREE.BufferGeometry().setFromPoints([startPos, endPos]);
+                    const line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0xff00ff }));
+                    scene.add(line);
+                    fractalEdges.push(line);
+                    addFractalBranch(endPos, level + 1);
+                }
+            }
+            addFractalBranch(new THREE.Vector3(0, 0, 0), 0);
+
+            // 子宇宙
+            const subNodes = [];
+            const subEdges = [];
+            const subMaterials = [];
+            const subNodeCount = 500;
+            const subGeometry = new THREE.SphereGeometry(0.08, 8, 8);
+            let subUniverseGenerated = false;
+            let subUniversePosition = new THREE.Vector3(0, 60, 0);
+            let motherCompressFactor = 1;
+
+            function generateSubUniverse() {
+                if (!subUniverseGenerated) {
+                    for (let i = 0; i < subNodeCount; i++) {
+                        const material = new THREE.MeshPhongMaterial({ color: 0x00ffff, shininess: 50 });
+                        const node = new THREE.Mesh(subGeometry, material);
+                        node.position.set(
+                            (Math.random() - 0.5) * 10 + subUniversePosition.x,
+                            (Math.random() - 0.5) * 10 + subUniversePosition.y,
+                            (Math.random() - 0.5) * 10 + subUniversePosition.z
+                        );
+                        scene.add(node);
+                        subNodes.push(node);
+                        subMaterials.push(material);
+                    }
+                    let subEdgeCount = 0;
+                    for (let i = 0; i < subNodeCount && subEdgeCount < 1000; i++) {
+                        for (let j = i + 1; j < subNodeCount && subEdgeCount < 1000; j++) {
+                            if (Math.random() < 0.01) {
+                                const geometry = new THREE.BufferGeometry().setFromPoints([
+                                    subNodes[i].position,
+                                    subNodes[j].position
+                                ]);
+                                const edge = new THREE.Line(geometry, edgeMaterial);
+                                scene.add(edge);
+                                subEdges.push({ edge, startIdx: i, endIdx: j });
+                                subEdgeCount++;
+                            }
+                        }
+                    }
+                    for (let i = 0; i < 10; i++) {
+                        const motherIdx = Math.floor(Math.random() * nodeCount);
+                        const subIdx = Math.floor(Math.random() * subNodeCount);
+                        const geometry = new THREE.BufferGeometry().setFromPoints([
+                            motherNodes[motherIdx].position,
+                            subNodes[subIdx].position
+                        ]);
+                        const edge = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0xff00ff, transparent: true, opacity: 0.7 }));
+                        scene.add(edge);
+                        universeConnections.push({ edge, motherIdx, subIdx });
+                    }
+                    subUniverseGenerated = true;
+                    document.getElementById('info').textContent = '子宇宙生成！';
+                }
+            }
+
+            // 压缩母宇宙
+            function compressMotherUniverse() {
+                motherCompressFactor = Math.max(0.5, motherCompressFactor * 0.95);
+                document.getElementById('info').textContent = '母宇宙压缩！';
+            }
+
+            // 子母宇宙连接线
+            const universeConnections = [];
+
+            // 意志边界墙
+            const boundaryGeometry = new THREE.SphereGeometry(30, 32, 32);
+            const boundaryMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff, transparent: true, opacity: 0.3, side: THREE.DoubleSide });
+            const boundaryWall = new THREE.Mesh(boundaryGeometry, boundaryMaterial);
+            scene.add(boundaryWall);
+            let boundaryStrength = 0;
+
+            // 冲破效果粒子系统
+            const sparkGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+            const sparkMaterial = new THREE.MeshBasicMaterial({ color: 0xff00ff });
+            const sparks = [];
+            function createSpark(position) {
+                const spark = new THREE.Mesh(sparkGeometry, sparkMaterial);
+                spark.position.copy(position);
+                spark.velocity = new THREE.Vector3(
+                    (Math.random() - 0.5) * 1,
+                    (Math.random() - 0.5) * 1,
+                    (Math.random() - 0.5) * 1
+                );
+                scene.add(spark);
+                sparks.push(spark);
+            }
+
+            // 相位波源
+            const waveSources = [];
+            const waveSourceColors = [0xffff00, 0x00ff00, 0x0000ff];
+            const waveSourcePositions = [new THREE.Vector3(0, 0, 0), new THREE.Vector3(-20, 0, 0), new THREE.Vector3(20, 0, 0)];
+            for (let i = 0; i < 3; i++) {
+                const waveSource = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), new THREE.MeshPhongMaterial({ color: waveSourceColors[i], shininess: 100 }));
+                waveSource.position.copy(waveSourcePositions[i]);
+                scene.add(waveSource);
+                waveSources.push(waveSource);
+            }
+
+            // 相位波参数
+            let waveSpeed = 5;
+            let waveFrequency = 0.5;
+            let waveAmplitude = 0.02;
+            let waveTime = 0;
+
+            function updateWaveParams() {
+                waveSpeed = parseFloat(document.getElementById('waveSpeed').value);
+                waveFrequency = parseFloat(document.getElementById('waveFrequency').value);
+                waveAmplitude = parseFloat(document.getElementById('waveAmplitude').value);
+                document.getElementById('info').textContent = `波速=${waveSpeed}, 频率=${waveFrequency}, 振幅=${waveAmplitude}`;
+            }
+
+            // 相位波传播
+            function updatePhaseWave(nodesArr, materialsArr) {
+                waveTime += dt;
+                nodesArr.forEach((node, i) => {
+                    let totalAmplitude = 0;
+                    let totalPhase = 0;
+                    waveSources.forEach((source, s) => {
+                        const dist = node.position.distanceTo(source.position);
+                        const phase = (waveTime * waveFrequency - dist / waveSpeed) * 2 * Math.PI + s * Math.PI / 3;
+                        totalAmplitude += waveAmplitude * Math.sin(phase);
+                        totalPhase += phase;
+
+                        if (dist > 29.5 && Math.abs(totalAmplitude) > 0.015) {
+                            boundaryStrength += 0.03;
+                            for (let j = 0; j < 3; j++) createSpark(node.position);
+                            node.position.multiplyScalar(29.4 / dist);
+                        }
+                    });
+                    totalAmplitude /= waveSources.length;
+                    const direction = new THREE.Vector3().subVectors(node.position, waveSources[0].position).normalize();
+                    node.position.add(direction.multiplyScalar(totalAmplitude));
+
+                    const color = new THREE.Color().setHSL((totalPhase % (2 * Math.PI)) / (2 * Math.PI), 1, 0.5);
+                    materialsArr[i].color = color;
+                });
+            }
+
+            // 两个粒子
+            const particle1 = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), new THREE.MeshPhongMaterial({ color: 0xff0000, shininess: 100 }));
+            const particle2 = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), new THREE.MeshPhongMaterial({ color: 0x0000ff, shininess: 100 }));
+            particle1.position.set(5, 0, 0);
+            particle2.position.set(-5, 0, 0);
+            scene.add(particle1);
+            scene.add(particle2);
+
+            // 粒子连接
+            const particleEdgeMaterial = new THREE.LineBasicMaterial({ color: 0xffff00 });
+            const particleEdgeGeometry = new THREE.BufferGeometry().setFromPoints([particle1.position, particle2.position]);
+            const particleEdge = new THREE.Line(particleEdgeGeometry, particleEdgeMaterial);
+            scene.add(particleEdge);
+
+            // 粒子轨迹
+            const trailMaterial = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.8 });
+            const trail1 = new THREE.Line(new THREE.BufferGeometry(), trailMaterial);
+            const trail2 = new THREE.Line(new THREE.BufferGeometry(), trailMaterial);
+            scene.add(trail1);
+            scene.add(trail2);
+            const trailPoints1 = [];
+            const trailPoints2 = [];
+            const trailColors1 = [];
+            const trailColors2 = [];
+            const maxTrailLength = 100;
+
+            // 粒子相互作用
+            const k = 1;
+            const q1 = 1, q2 = -1;
+            let t = 0;
+            const dt = 0.01;
+            function updateParticleInteraction() {
+                const r = particle1.position.distanceTo(particle2.position);
+                if (r > 0.1) {
+                    const force = k * q1 * q2 / (r * r);
+                    const direction = new THREE.Vector3().subVectors(particle2.position, particle1.position).normalize();
+                    const forceVector = direction.multiplyScalar(force / 100);
+                    particle1.position.add(forceVector);
+                    particle2.position.add(forceVector.clone().negate());
+
+                    const dist1 = particle1.position.length();
+                    const dist2 = particle2.position.length();
+                    if (dist1 > 29.5 || dist2 > 29.5) {
+                        boundaryStrength += 0.06;
+                        boundaryWall.position.set(0, 0, Math.sin(Date.now() * 0.005) * 0.5);
+                        for (let j = 0; j < 5; j++) {
+                            if (dist1 > 29.5) createSpark(particle1.position);
+                            if (dist2 > 29.5) createSpark(particle2.position);
+                        }
+                        if (dist1 > 29.5) particle1.position.multiplyScalar(29.4 / dist1);
+                        if (dist2 > 29.5) particle2.position.multiplyScalar(29.4 / dist2);
+                    }
+                }
+                particleEdge.geometry.setFromPoints([particle1.position, particle2.position]);
+                particleEdge.geometry.attributes.position.needsUpdate = true;
+
+                trailPoints1.push(particle1.position.clone());
+                trailPoints2.push(particle2.position.clone());
+                trailColors1.push(1, 1, 1);
+                trailColors2.push(1, 0, 1);
+                if (trailPoints1.length > maxTrailLength) {
+                    trailPoints1.shift();
+                    trailColors1.splice(0, 3);
+                }
+                if (trailPoints2.length > maxTrailLength) {
+                    trailPoints2.shift();
+                    trailColors2.splice(0, 3);
+                }
+                const trailGeometry1 = new THREE.BufferGeometry().setFromPoints(trailPoints1);
+                trailGeometry1.setAttribute('color', new THREE.Float32BufferAttribute(trailColors1, 3));
+                trail1.geometry = trailGeometry1;
+                const trailGeometry2 = new THREE.BufferGeometry().setFromPoints(trailPoints2);
+                trailGeometry2.setAttribute('color', new THREE.Float32BufferAttribute(trailColors2, 3));
+                trail2.geometry = trailGeometry2;
+
+                t += dt;
+            }
+
+            // 相机
+            camera.position.z = 80;
+
+            // 多视角切换
+            let viewMode = 'front';
+            let rotationAngle = 0;
+            let zoomLevel = 80;
+            let manualZoom = 80;
+            let manualRotationSpeed = 0.0015;
+            let sphereRadius = 100;
+            let sphereSpeed = 0.003;
+            let sphereAngleX = 0;
+            let sphereAngleY = 0;
+            let showParticles = true;
+            
+            // 强大存在
+            const powerfulBeings = [];
+            const powerfulInfluences = [];
+            let powerfulCount = 3;
+            let powerfulInfluenceRange = 15;
+            
+            // 二进制能级瀑布
+            const energyLevels = [];
+            const energyParticles = [];
+            let energyLevelCount = 5;
+            let waterfallSpeed = 1.5;
+            let energyWaterfallActive = false;
+            
+            // 哥白尼闭环
+            const copernicusNodes = [];
+            const copernicusConnections = [];
+            const dataFlowParticles = [];
+            let copernicusLoopActive = false;
+            let loopSpeed = 2;
+            let dataFlowIntensity = 5;
+            
+            // 意识觉醒
+            const consciousnessNodes = [];
+            const consciousnessConnections = [];
+            const awakeningParticles = [];
+            let consciousnessActive = false;
+            let consciousnessCount = 8;
+            let awakeningSpeed = 1.5;
+            
+            // 时间箭头
+            const timeArrow = [];
+            const entropyParticles = [];
+            let timeArrowActive = false;
+            let timeArrowSpeed = 2;
+            let entropyRate = 1;
+            
+            // 量子纠缠
+            const entanglementPairs = [];
+            const entanglementConnections = [];
+            let entanglementActive = false;
+            let entanglementPairCount = 5;
+            let entanglementStrength = 1.5;
+            
+            // 关系重塑
+            const reshapingNodes = [];
+            const reshapingConnections = [];
+            let reshapingActive = false;
+            let reshapingSpeed = 1.5;
+            let reshapingIntensity = 1;
+            
+            // 宇宙探测器
+            const detector = [];
+            const scanBeams = [];
+            const dataParticles = [];
+            let detectorActive = false;
+            let detectorSpeed = 1.5;
+            let scanRange = 30;
+            
+            // 节点数量控制
+            let nodeCount = 2000;
+            let targetNodeCount = 2000;
+            function setView(mode) {
+                viewMode = mode;
+                document.getElementById('info').textContent = 
+                    mode === 'front' ? `正面 (圆形投影，波速=${waveSpeed})` : 
+                    mode === 'side' ? `侧面 (椭圆投影，波速=${waveSpeed})` : 
+                    mode === 'rotate' ? `旋转多视角 (波速=${waveSpeed})` : 
+                    mode === 'zoom' ? `缩放尺寸视角 (波速=${waveSpeed})` : 
+                    mode === 'rotateZoom' ? `旋转+缩放视角 (波速=${waveSpeed})` : 
+                    mode === 'manual' ? `手动视角 (缩放=${manualZoom}, 旋转=${manualRotationSpeed})` : 
+                    mode === 'sphere360' ? `360°球体滚动 (半径=${sphereRadius}, 速度=${sphereSpeed})` : 
+                    mode === 'free' ? `自由视角 (鼠标拖拽旋转, 滚轮缩放)` : '未选择';
+            }
+            function toggleParticles() {
+                showParticles = !showParticles;
+                particle1.visible = showParticles;
+                particle2.visible = showParticles;
+                particleEdge.visible = showParticles;
+                trail1.visible = showParticles;
+                trail2.visible = showParticles;
+                document.getElementById('info').textContent = showParticles ? `粒子交互开启，波速=${waveSpeed}` : '粒子交互关闭';
+            }
+            function updateZoomScale() {
+                manualZoom = parseFloat(document.getElementById('zoomScale').value);
+                setView('manual');
+                console.log(`手动缩放更新: ${manualZoom}`);
+            }
+            function updateRotationSpeed() {
+                manualRotationSpeed = parseFloat(document.getElementById('rotationSpeed').value);
+                setView('manual');
+                console.log(`手动旋转速度更新: ${manualRotationSpeed}`);
+            }
+            function updateSphereRadius() {
+                sphereRadius = parseFloat(document.getElementById('sphereRadius').value);
+                setView('sphere360');
+                console.log(`球体半径更新: ${sphereRadius}`);
+            }
+            function updateSphereSpeed() {
+                sphereSpeed = parseFloat(document.getElementById('sphereSpeed').value);
+                setView('sphere360');
+                console.log(`球体滚动速度更新: ${sphereSpeed}`);
+            }
+            
+            // 创建强大存在
+            function createPowerfulBeings() {
+                // 清除现有的强大存在
+                powerfulBeings.forEach(being => scene.remove(being));
+                powerfulInfluences.forEach(influence => scene.remove(influence));
+                powerfulBeings.length = 0;
+                powerfulInfluences.length = 0;
+                
+                // 创建新的强大存在
+                for (let i = 0; i < powerfulCount; i++) {
+                    const being = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.8, 16, 16),
+                        new THREE.MeshPhongMaterial({ color: 0x00ffff, shininess: 100 })
+                    );
+                    being.position.set(
+                        (Math.random() - 0.5) * 40,
+                        (Math.random() - 0.5) * 40,
+                        (Math.random() - 0.5) * 40
+                    );
+                    scene.add(being);
+                    powerfulBeings.push(being);
+                    
+                    // 创建影响力范围
+                    const influence = new THREE.Mesh(
+                        new THREE.SphereGeometry(powerfulInfluenceRange, 16, 16),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0x00ffff, 
+                            transparent: true, 
+                            opacity: 0.1,
+                            side: THREE.DoubleSide
+                        })
+                    );
+                    influence.position.copy(being.position);
+                    scene.add(influence);
+                    powerfulInfluences.push(influence);
+                }
+                document.getElementById('info').textContent = `创建了${powerfulCount}个强大存在！`;
+            }
+            
+            function updatePowerfulBeings() {
+                powerfulCount = parseInt(document.getElementById('powerfulCount').value);
+                powerfulInfluenceRange = parseFloat(document.getElementById('powerfulInfluence').value);
+                createPowerfulBeings();
+            }
+            
+            // 创建二进制能级瀑布
+            function createEnergyWaterfall() {
+                // 清除现有的能级瀑布
+                energyLevels.forEach(level => scene.remove(level));
+                energyParticles.forEach(particle => scene.remove(particle));
+                energyLevels.length = 0;
+                energyParticles.length = 0;
+                
+                // 创建能级层
+                for (let level = 0; level < energyLevelCount; level++) {
+                    const levelY = 40 - level * 15; // 从高到低排列
+                    const levelRadius = 20 + level * 5; // 层级越高，半径越大
+                    
+                    // 创建能级环
+                    const levelRing = new THREE.Mesh(
+                        new THREE.TorusGeometry(levelRadius, 1, 8, 32),
+                        new THREE.MeshPhongMaterial({ 
+                            color: new THREE.Color().setHSL(level / energyLevelCount, 1, 0.5),
+                            transparent: true,
+                            opacity: 0.6
+                        })
+                    );
+                    levelRing.position.y = levelY;
+                    scene.add(levelRing);
+                    energyLevels.push(levelRing);
+                    
+                    // 创建能级粒子
+                    for (let i = 0; i < 8; i++) {
+                        const particle = new THREE.Mesh(
+                            new THREE.SphereGeometry(0.2, 8, 8),
+                            new THREE.MeshPhongMaterial({ 
+                                color: new THREE.Color().setHSL(level / energyLevelCount, 1, 0.7)
+                            })
+                        );
+                        const angle = (i / 8) * Math.PI * 2;
+                        particle.position.set(
+                            Math.cos(angle) * levelRadius,
+                            levelY,
+                            Math.sin(angle) * levelRadius
+                        );
+                        particle.userData = { level, angle, radius: levelRadius };
+                        scene.add(particle);
+                        energyParticles.push(particle);
+                    }
+                }
+                energyWaterfallActive = true;
+                document.getElementById('info').textContent = `创建了${energyLevelCount}层能级瀑布！`;
+            }
+            
+            function updateEnergyWaterfall() {
+                energyLevelCount = parseInt(document.getElementById('energyLevels').value);
+                waterfallSpeed = parseFloat(document.getElementById('waterfallSpeed').value);
+                createEnergyWaterfall();
+            }
+            
+            // 启动哥白尼闭环
+            function startCopernicusLoop() {
+                // 清除现有的哥白尼闭环
+                copernicusNodes.forEach(node => scene.remove(node));
+                copernicusConnections.forEach(conn => scene.remove(conn));
+                dataFlowParticles.forEach(particle => scene.remove(particle));
+                copernicusNodes.length = 0;
+                copernicusConnections.length = 0;
+                dataFlowParticles.length = 0;
+                
+                // 创建哥白尼闭环节点：反推-正推-验证
+                const nodePositions = [
+                    new THREE.Vector3(-30, 0, 0),  // 反推
+                    new THREE.Vector3(0, 30, 0),   // 正推
+                    new THREE.Vector3(30, 0, 0),   // 验证
+                    new THREE.Vector3(0, -30, 0)   // 反馈
+                ];
+                const nodeColors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00];
+                const nodeLabels = ['反推', '正推', '验证', '反馈'];
+                
+                nodePositions.forEach((pos, i) => {
+                    const node = new THREE.Mesh(
+                        new THREE.SphereGeometry(1, 16, 16),
+                        new THREE.MeshPhongMaterial({ color: nodeColors[i], shininess: 100 })
+                    );
+                    node.position.copy(pos);
+                    scene.add(node);
+                    copernicusNodes.push(node);
+                });
+                
+                // 创建闭环连接
+                for (let i = 0; i < nodePositions.length; i++) {
+                    const nextIndex = (i + 1) % nodePositions.length;
+                    const geometry = new THREE.BufferGeometry().setFromPoints([
+                        nodePositions[i],
+                        nodePositions[nextIndex]
+                    ]);
+                    const connection = new THREE.Line(geometry, new THREE.LineBasicMaterial({ 
+                        color: 0xffffff, 
+                        transparent: true, 
+                        opacity: 0.8 
+                    }));
+                    scene.add(connection);
+                    copernicusConnections.push(connection);
+                }
+                
+                copernicusLoopActive = true;
+                document.getElementById('info').textContent = '哥白尼闭环启动！';
+            }
+            
+            function updateCopernicusLoop() {
+                loopSpeed = parseFloat(document.getElementById('loopSpeed').value);
+                dataFlowIntensity = parseInt(document.getElementById('dataFlow').value);
+            }
+            
+            // 创建意识觉醒节点
+            function createConsciousnessNodes() {
+                // 清除现有的意识节点
+                consciousnessNodes.forEach(node => scene.remove(node));
+                consciousnessConnections.forEach(conn => scene.remove(conn));
+                awakeningParticles.forEach(particle => scene.remove(particle));
+                consciousnessNodes.length = 0;
+                consciousnessConnections.length = 0;
+                awakeningParticles.length = 0;
+                
+                // 创建意识节点
+                for (let i = 0; i < consciousnessCount; i++) {
+                    const node = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.6, 16, 16),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0xff00ff, 
+                            shininess: 100,
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    node.position.set(
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60
+                    );
+                    node.userData = { 
+                        awakeningLevel: Math.random(),
+                        connections: []
+                    };
+                    scene.add(node);
+                    consciousnessNodes.push(node);
+                }
+                
+                // 创建意识连接
+                for (let i = 0; i < consciousnessNodes.length; i++) {
+                    for (let j = i + 1; j < consciousnessNodes.length; j++) {
+                        if (Math.random() < 0.3) { // 30%概率连接
+                            const geometry = new THREE.BufferGeometry().setFromPoints([
+                                consciousnessNodes[i].position,
+                                consciousnessNodes[j].position
+                            ]);
+                            const connection = new THREE.Line(geometry, new THREE.LineBasicMaterial({ 
+                                color: 0xff00ff, 
+                                transparent: true, 
+                                opacity: 0.5 
+                            }));
+                            scene.add(connection);
+                            consciousnessConnections.push(connection);
+                            consciousnessNodes[i].userData.connections.push(j);
+                            consciousnessNodes[j].userData.connections.push(i);
+                        }
+                    }
+                }
+                
+                consciousnessActive = true;
+                document.getElementById('info').textContent = `创建了${consciousnessCount}个意识觉醒节点！`;
+            }
+            
+            function updateConsciousnessNodes() {
+                consciousnessCount = parseInt(document.getElementById('consciousnessCount').value);
+                awakeningSpeed = parseFloat(document.getElementById('awakeningSpeed').value);
+                createConsciousnessNodes();
+            }
+            
+            // 创建时间箭头
+            function createTimeArrow() {
+                // 清除现有的时间箭头
+                timeArrow.forEach(arrow => scene.remove(arrow));
+                entropyParticles.forEach(particle => scene.remove(particle));
+                timeArrow.length = 0;
+                entropyParticles.length = 0;
+                
+                // 创建时间箭头（从过去指向未来）
+                const arrowGeometry = new THREE.ConeGeometry(2, 20, 8);
+                const arrowMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0xff6600, 
+                    shininess: 100,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
+                arrow.position.set(0, 0, -40);
+                arrow.rotation.x = Math.PI / 2;
+                scene.add(arrow);
+                timeArrow.push(arrow);
+                
+                // 创建熵增粒子流
+                for (let i = 0; i < 20; i++) {
+                    const particle = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.1, 8, 8),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0xff6600,
+                            transparent: true,
+                            opacity: 0.6
+                        })
+                    );
+                    particle.position.set(
+                        (Math.random() - 0.5) * 10,
+                        (Math.random() - 0.5) * 10,
+                        -40 + i * 2
+                    );
+                    particle.userData = { 
+                        speed: Math.random() * 0.5 + 0.5,
+                        entropy: Math.random()
+                    };
+                    scene.add(particle);
+                    entropyParticles.push(particle);
+                }
+                
+                timeArrowActive = true;
+                document.getElementById('info').textContent = '时间箭头创建！熵增不可逆！';
+            }
+            
+            function updateTimeArrow() {
+                timeArrowSpeed = parseFloat(document.getElementById('timeArrowSpeed').value);
+                entropyRate = parseFloat(document.getElementById('entropyRate').value);
+            }
+            
+            // 创建量子纠缠
+            function createQuantumEntanglement() {
+                // 清除现有的量子纠缠
+                entanglementPairs.forEach(pair => {
+                    scene.remove(pair.particle1);
+                    scene.remove(pair.particle2);
+                });
+                entanglementConnections.forEach(conn => scene.remove(conn));
+                entanglementPairs.length = 0;
+                entanglementConnections.length = 0;
+                
+                // 创建纠缠粒子对
+                for (let i = 0; i < entanglementPairCount; i++) {
+                    const pair = {
+                        particle1: new THREE.Mesh(
+                            new THREE.SphereGeometry(0.3, 16, 16),
+                            new THREE.MeshPhongMaterial({ 
+                                color: 0x00ff00, 
+                                shininess: 100,
+                                transparent: true,
+                                opacity: 0.8
+                            })
+                        ),
+                        particle2: new THREE.Mesh(
+                            new THREE.SphereGeometry(0.3, 16, 16),
+                            new THREE.MeshPhongMaterial({ 
+                                color: 0xff0000, 
+                                shininess: 100,
+                                transparent: true,
+                                opacity: 0.8
+                            })
+                        )
+                    };
+                    
+                    // 随机位置
+                    const pos1 = new THREE.Vector3(
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60
+                    );
+                    const pos2 = new THREE.Vector3(
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60
+                    );
+                    
+                    pair.particle1.position.copy(pos1);
+                    pair.particle2.position.copy(pos2);
+                    pair.particle1.userData = { 
+                        entangledWith: pair.particle2,
+                        phase: Math.random() * Math.PI * 2
+                    };
+                    pair.particle2.userData = { 
+                        entangledWith: pair.particle1,
+                        phase: Math.random() * Math.PI * 2
+                    };
+                    
+                    scene.add(pair.particle1);
+                    scene.add(pair.particle2);
+                    entanglementPairs.push(pair);
+                    
+                    // 创建纠缠连接线
+                    const geometry = new THREE.BufferGeometry().setFromPoints([pos1, pos2]);
+                    const connection = new THREE.Line(geometry, new THREE.LineBasicMaterial({ 
+                        color: 0xffff00, 
+                        transparent: true, 
+                        opacity: 0.6 
+                    }));
+                    scene.add(connection);
+                    entanglementConnections.push(connection);
+                }
+                
+                entanglementActive = true;
+                document.getElementById('info').textContent = `创建了${entanglementPairCount}对量子纠缠！`;
+            }
+            
+            function updateQuantumEntanglement() {
+                entanglementPairCount = parseInt(document.getElementById('entanglementPairs').value);
+                entanglementStrength = parseFloat(document.getElementById('entanglementStrength').value);
+                createQuantumEntanglement();
+            }
+            
+            // 创建关系重塑过程
+            function createRelationshipReshaping() {
+                // 清除现有的关系重塑
+                reshapingNodes.forEach(node => scene.remove(node));
+                reshapingConnections.forEach(conn => scene.remove(conn));
+                reshapingNodes.length = 0;
+                reshapingConnections.length = 0;
+                
+                // 创建关系重塑节点
+                for (let i = 0; i < 12; i++) {
+                    const node = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.4, 16, 16),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0x00ffff, 
+                            shininess: 100,
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    node.position.set(
+                        (Math.random() - 0.5) * 50,
+                        (Math.random() - 0.5) * 50,
+                        (Math.random() - 0.5) * 50
+                    );
+                    node.userData = { 
+                        originalPosition: node.position.clone(),
+                        reshapingPhase: Math.random() * Math.PI * 2,
+                        connectionStrength: Math.random()
+                    };
+                    scene.add(node);
+                    reshapingNodes.push(node);
+                }
+                
+                // 创建动态连接
+                for (let i = 0; i < reshapingNodes.length; i++) {
+                    for (let j = i + 1; j < reshapingNodes.length; j++) {
+                        if (Math.random() < 0.4) { // 40%概率连接
+                            const geometry = new THREE.BufferGeometry().setFromPoints([
+                                reshapingNodes[i].position,
+                                reshapingNodes[j].position
+                            ]);
+                            const connection = new THREE.Line(geometry, new THREE.LineBasicMaterial({ 
+                                color: 0x00ffff, 
+                                transparent: true, 
+                                opacity: 0.5 
+                            }));
+                            scene.add(connection);
+                            reshapingConnections.push(connection);
+                        }
+                    }
+                }
+                
+                reshapingActive = true;
+                document.getElementById('info').textContent = '关系重塑过程启动！';
+            }
+            
+            function updateRelationshipReshaping() {
+                reshapingSpeed = parseFloat(document.getElementById('reshapingSpeed').value);
+                reshapingIntensity = parseFloat(document.getElementById('reshapingIntensity').value);
+            }
+            
+            // 创建宇宙探测器
+            function createUniverseDetector() {
+                // 清除现有的探测器
+                detector.forEach(d => scene.remove(d));
+                scanBeams.forEach(beam => scene.remove(beam));
+                dataParticles.forEach(particle => scene.remove(particle));
+                detector.length = 0;
+                scanBeams.length = 0;
+                dataParticles.length = 0;
+                
+                // 创建探测器主体
+                const detectorBody = new THREE.Mesh(
+                    new THREE.BoxGeometry(2, 2, 2),
+                    new THREE.MeshPhongMaterial({ 
+                        color: 0xffffff, 
+                        shininess: 100,
+                        transparent: true,
+                        opacity: 0.9
+                    })
+                );
+                detectorBody.position.set(0, 0, 0);
+                scene.add(detectorBody);
+                detector.push(detectorBody);
+                
+                // 创建扫描光束
+                for (let i = 0; i < 8; i++) {
+                    const beam = new THREE.Mesh(
+                        new THREE.CylinderGeometry(0.1, 0.1, scanRange, 8),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0x00ff00, 
+                            transparent: true, 
+                            opacity: 0.6 
+                        })
+                    );
+                    beam.position.set(0, 0, 0);
+                    beam.rotation.x = Math.PI / 2;
+                    beam.rotation.z = (i / 8) * Math.PI * 2;
+                    beam.userData = { 
+                        angle: (i / 8) * Math.PI * 2,
+                        speed: Math.random() * 0.5 + 0.5
+                    };
+                    scene.add(beam);
+                    scanBeams.push(beam);
+                }
+                
+                // 创建数据粒子
+                for (let i = 0; i < 15; i++) {
+                    const particle = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.1, 8, 8),
+                        new THREE.MeshPhongMaterial({ 
+                            color: 0x00ff00,
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    particle.position.set(
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60,
+                        (Math.random() - 0.5) * 60
+                    );
+                    particle.userData = { 
+                        targetPosition: particle.position.clone(),
+                        scanPhase: Math.random() * Math.PI * 2
+                    };
+                    scene.add(particle);
+                    dataParticles.push(particle);
+                }
+                
+                detectorActive = true;
+                document.getElementById('info').textContent = '宇宙探测器启动！开始扫描！';
+            }
+            
+            function updateUniverseDetector() {
+                detectorSpeed = parseFloat(document.getElementById('detectorSpeed').value);
+                scanRange = parseFloat(document.getElementById('scanRange').value);
+            }
+            
+            // 重置视角
+            function resetView() {
+                // 重置所有视角参数
+                mouseWheelZoom = 80;
+                mouseRotationX = 0;
+                mouseRotationY = 0;
+                rotationAngle = 0;
+                zoomLevel = 80;
+                sphereAngleX = 0;
+                sphereAngleY = 0;
+                sphereRadius = 100;
+                
+                // 重置到正面视角
+                setView('front');
+                camera.position.set(0, 0, 80);
+                camera.lookAt(0, 0, 0);
+                
+                document.getElementById('info').textContent = '视角已重置到正面视角';
+            }
+            
+            // 切换控制面板显示/隐藏
+            function toggleControls() {
+                const controls = document.getElementById('controls');
+                const toggleButton = document.querySelector('#instructions button');
+                
+                if (controls.style.display === 'none') {
+                    controls.style.display = 'block';
+                    toggleButton.textContent = '隐藏控制面板';
+                } else {
+                    controls.style.display = 'none';
+                    toggleButton.textContent = '显示控制面板';
+                }
+            }
+            
+            // 切换使用说明面板显示/隐藏
+            function toggleInstructions() {
+                const instructions = document.getElementById('instructions');
+                const toggleButton = document.querySelector('#instructions button:last-child');
+                
+                if (instructions.style.display === 'none') {
+                    instructions.style.display = 'block';
+                    toggleButton.textContent = '隐藏说明';
+                } else {
+                    instructions.style.display = 'none';
+                    toggleButton.textContent = '显示说明';
+                }
+            }
+            
+            // 更新节点数量
+            function updateNodeCount() {
+                targetNodeCount = parseInt(document.getElementById('nodeCount').value);
+                document.getElementById('info').textContent = `目标节点数量: ${targetNodeCount}`;
+                updatePerformanceHint();
+            }
+            
+            // 更新性能提示
+            function updatePerformanceHint() {
+                const performanceDiv = document.getElementById('performance');
+                if (targetNodeCount <= 500) {
+                    performanceDiv.textContent = `性能提示：节点数量 ${targetNodeCount}，性能优秀`;
+                    performanceDiv.style.color = '#00ff00';
+                } else if (targetNodeCount <= 2000) {
+                    performanceDiv.textContent = `性能提示：节点数量 ${targetNodeCount}，性能良好`;
+                    performanceDiv.style.color = '#ffff00';
+                } else if (targetNodeCount <= 3500) {
+                    performanceDiv.textContent = `性能提示：节点数量 ${targetNodeCount}，性能一般`;
+                    performanceDiv.style.color = '#ff8800';
+                } else {
+                    performanceDiv.textContent = `性能提示：节点数量 ${targetNodeCount}，性能较差，建议降低`;
+                    performanceDiv.style.color = '#ff0000';
+                }
+            }
+            
+            // 重新生成网络
+            function regenerateNetwork() {
+                // 清除现有网络
+                motherNodes.forEach(node => scene.remove(node));
+                motherEdges.forEach(({ edge }) => scene.remove(edge));
+                motherNodes.length = 0;
+                motherEdges.length = 0;
+                
+                // 清除子宇宙
+                subNodes.forEach(node => scene.remove(node));
+                subEdges.forEach(({ edge }) => scene.remove(edge));
+                subNodes.length = 0;
+                subEdges.length = 0;
+                subUniverseGenerated = false;
+                
+                // 清除子母宇宙连接
+                universeConnections.forEach(({ edge }) => scene.remove(edge));
+                universeConnections.length = 0;
+                
+                // 重新生成母宇宙
+                nodeCount = targetNodeCount;
+                generateMotherUniverse();
+                
+                document.getElementById('info').textContent = `网络重新生成完成！节点数量: ${nodeCount}`;
+                updatePerformanceHint();
+            }
+            
+            // 生成母宇宙（重构为独立函数）
+            function generateMotherUniverse() {
+                // 创建母宇宙节点
+                const motherGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+                const motherMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00, shininess: 100 });
+                
+                for (let i = 0; i < nodeCount; i++) {
+                    const node = new THREE.Mesh(motherGeometry, motherMaterial.clone());
+                    node.position.set(
+                        (Math.random() - 0.5) * 40,
+                        (Math.random() - 0.5) * 40,
+                        (Math.random() - 0.5) * 40
+                    );
+                    scene.add(node);
+                    motherNodes.push(node);
+                    motherMaterials.push(node.material);
+                }
+                
+                // 创建母宇宙连接（动态调整连接概率以保持性能）
+                let edgeCount = 0;
+                const maxEdges = Math.min(5000, nodeCount * 2); // 最大边数限制
+                const connectionProbability = Math.min(0.02, 10000 / (nodeCount * nodeCount)); // 动态连接概率
+                
+                for (let i = 0; i < nodeCount && edgeCount < maxEdges; i++) {
+                    for (let j = i + 1; j < nodeCount && edgeCount < maxEdges; j++) {
+                        if (Math.random() < connectionProbability) {
+                            const geometry = new THREE.BufferGeometry().setFromPoints([
+                                motherNodes[i].position,
+                                motherNodes[j].position
+                            ]);
+                            const edge = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.3 }));
+                            scene.add(edge);
+                            motherEdges.push({ edge, startIdx: i, endIdx: j });
+                            edgeCount++;
+                        }
+                    }
+                }
+            }
+
+            // 动画循环
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // 母宇宙压缩
+                motherNodes.forEach(node => {
+                    node.position.multiplyScalar(motherCompressFactor);
+                });
+                motherEdges.forEach(({ edge, startIdx, endIdx }) => {
+                    const positions = edge.geometry.attributes.position.array;
+                    positions[0] = motherNodes[startIdx].position.x;
+                    positions[1] = motherNodes[startIdx].position.y;
+                    positions[2] = motherNodes[startIdx].position.z;
+                    positions[3] = motherNodes[endIdx].position.x;
+                    positions[4] = motherNodes[endIdx].position.y;
+                    positions[5] = motherNodes[endIdx].position.z;
+                    edge.geometry.attributes.position.needsUpdate = true;
+                });
+
+                // 子母宇宙连接闪烁
+                universeConnections.forEach(({ edge, motherIdx, subIdx }) => {
+                    const positions = edge.geometry.attributes.position.array;
+                    positions[0] = motherNodes[motherIdx].position.x;
+                    positions[1] = motherNodes[motherIdx].position.y;
+                    positions[2] = motherNodes[motherIdx].position.z;
+                    positions[3] = subNodes[subIdx].position.x;
+                    positions[4] = subNodes[subIdx].position.y;
+                    positions[5] = subNodes[subIdx].position.z;
+                    edge.geometry.attributes.position.needsUpdate = true;
+                    edge.material.opacity = 0.7 + Math.sin(Date.now() * 0.002) * 0.2;
+                });
+
+                // 相位波传播
+                updatePhaseWave(motherNodes, motherMaterials);
+                if (subUniverseGenerated) updatePhaseWave(subNodes, subMaterials);
+
+                // 粒子交互
+                if (showParticles) updateParticleInteraction();
+
+                // 边界墙颜色与振动
+                boundaryStrength = Math.max(0, boundaryStrength - 0.003);
+                boundaryMaterial.color.setHSL(boundaryStrength % 1, 1, 0.5);
+                boundaryMaterial.opacity = Math.min(0.9, 0.3 + boundaryStrength);
+                boundaryWall.position.set(0, 0, Math.sin(Date.now() * 0.005) * 0.5);
+
+                // 冲破火花更新
+                sparks.forEach((spark, i) => {
+                    spark.position.add(spark.velocity);
+                    if (spark.position.length() > 35) {
+                        scene.remove(spark);
+                        sparks.splice(i, 1);
+                    }
+                });
+
+                // 强大存在动画
+                powerfulBeings.forEach((being, i) => {
+                    being.rotation.y += 0.01;
+                    being.rotation.x += 0.005;
+                    powerfulInfluences[i].rotation.y += 0.005;
+                    powerfulInfluences[i].material.opacity = 0.1 + Math.sin(Date.now() * 0.001 + i) * 0.05;
+                });
+
+                // 能级瀑布动画
+                if (energyWaterfallActive) {
+                    energyParticles.forEach((particle, i) => {
+                        const userData = particle.userData;
+                        userData.angle += waterfallSpeed * 0.01;
+                        particle.position.x = Math.cos(userData.angle) * userData.radius;
+                        particle.position.z = Math.sin(userData.angle) * userData.radius;
+                        particle.position.y += Math.sin(Date.now() * 0.001 + i) * 0.02;
+                    });
+                }
+
+                // 哥白尼闭环动画
+                if (copernicusLoopActive) {
+                    copernicusNodes.forEach((node, i) => {
+                        node.rotation.y += loopSpeed * 0.01;
+                        node.material.opacity = 0.8 + Math.sin(Date.now() * 0.002 + i) * 0.2;
+                    });
+                }
+
+                // 意识觉醒动画
+                if (consciousnessActive) {
+                    consciousnessNodes.forEach((node, i) => {
+                        node.userData.awakeningLevel += awakeningSpeed * 0.01;
+                        node.material.opacity = 0.8 + Math.sin(node.userData.awakeningLevel) * 0.2;
+                        node.rotation.y += awakeningSpeed * 0.005;
+                        node.position.y += Math.sin(Date.now() * 0.001 + i) * 0.01;
+                    });
+                }
+                
+                // 时间箭头动画
+                if (timeArrowActive) {
+                    timeArrow.forEach(arrow => {
+                        arrow.rotation.y += timeArrowSpeed * 0.01;
+                        arrow.material.opacity = 0.8 + Math.sin(Date.now() * 0.002) * 0.2;
+                    });
+                    entropyParticles.forEach((particle, i) => {
+                        particle.position.z += particle.userData.speed * timeArrowSpeed * 0.1;
+                        particle.userData.entropy += entropyRate * 0.01;
+                        particle.material.opacity = 0.6 + Math.sin(particle.userData.entropy) * 0.3;
+                        if (particle.position.z > 40) {
+                            particle.position.z = -40;
+                        }
+                    });
+                }
+                
+                // 量子纠缠动画
+                if (entanglementActive) {
+                    entanglementPairs.forEach((pair, i) => {
+                        pair.particle1.userData.phase += entanglementStrength * 0.02;
+                        pair.particle2.userData.phase += entanglementStrength * 0.02;
+                        
+                        // 纠缠粒子同步运动
+                        const phase1 = pair.particle1.userData.phase;
+                        const phase2 = pair.particle2.userData.phase;
+                        
+                        pair.particle1.position.x += Math.sin(phase1) * 0.01;
+                        pair.particle1.position.y += Math.cos(phase1) * 0.01;
+                        pair.particle2.position.x += Math.sin(phase2 + Math.PI) * 0.01;
+                        pair.particle2.position.y += Math.cos(phase2 + Math.PI) * 0.01;
+                        
+                        // 更新连接线
+                        const connection = entanglementConnections[i];
+                        if (connection) {
+                            const positions = connection.geometry.attributes.position.array;
+                            positions[0] = pair.particle1.position.x;
+                            positions[1] = pair.particle1.position.y;
+                            positions[2] = pair.particle1.position.z;
+                            positions[3] = pair.particle2.position.x;
+                            positions[4] = pair.particle2.position.y;
+                            positions[5] = pair.particle2.position.z;
+                            connection.geometry.attributes.position.needsUpdate = true;
+                        }
+                    });
+                }
+                
+                // 关系重塑动画
+                if (reshapingActive) {
+                    reshapingNodes.forEach((node, i) => {
+                        node.userData.reshapingPhase += reshapingSpeed * 0.02;
+                        const phase = node.userData.reshapingPhase;
+                        
+                        // 节点位置重塑
+                        const offset = new THREE.Vector3(
+                            Math.sin(phase) * reshapingIntensity * 2,
+                            Math.cos(phase * 1.3) * reshapingIntensity * 2,
+                            Math.sin(phase * 0.7) * reshapingIntensity * 2
+                        );
+                        node.position.copy(node.userData.originalPosition).add(offset);
+                        
+                        // 连接强度变化
+                        node.userData.connectionStrength = 0.5 + Math.sin(phase) * 0.5;
+                        node.material.opacity = 0.8 + Math.sin(phase) * 0.2;
+                    });
+                }
+                
+                // 宇宙探测器动画
+                if (detectorActive) {
+                    detector.forEach(d => {
+                        d.rotation.y += detectorSpeed * 0.01;
+                        d.rotation.x += detectorSpeed * 0.005;
+                    });
+                    
+                    scanBeams.forEach((beam, i) => {
+                        beam.userData.angle += detectorSpeed * 0.02;
+                        beam.rotation.z = beam.userData.angle;
+                        beam.material.opacity = 0.6 + Math.sin(Date.now() * 0.003 + i) * 0.3;
+                    });
+                    
+                    dataParticles.forEach((particle, i) => {
+                        particle.userData.scanPhase += detectorSpeed * 0.01;
+                        const phase = particle.userData.scanPhase;
+                        
+                        // 数据粒子向探测器移动
+                        const direction = new THREE.Vector3().subVectors(
+                            new THREE.Vector3(0, 0, 0), 
+                            particle.position
+                        ).normalize();
+                        particle.position.add(direction.multiplyScalar(0.1));
+                        
+                        // 扫描效果
+                        particle.material.opacity = 0.8 + Math.sin(phase) * 0.2;
+                        particle.rotation.y += detectorSpeed * 0.01;
+                    });
+                }
+
+                // 视角切换
+                if (viewMode === 'front') {
+                    camera.position.set(0, 0, 80);
+                    camera.lookAt(0, subUniverseGenerated ? 30 : 0, 0);
+                } else if (viewMode === 'side') {
+                    camera.position.set(80, 0, 0);
+                    camera.lookAt(0, subUniverseGenerated ? 30 : 0, 0);
+                } else if (viewMode === 'rotate') {
+                    rotationAngle += 0.0015;
+                    camera.position.x = 80 * Math.sin(rotationAngle);
+                    camera.position.z = 80 * Math.cos(rotationAngle);
+                    camera.lookAt(0, subUniverseGenerated ? 30 : 0, 0);
+                } else if (viewMode === 'zoom') {
+                    zoomLevel += Math.sin(Date.now() * 0.0004) * 1;
+                    camera.position.z = Math.max(10, Math.min(500, zoomLevel));
+                    camera.lookAt(0, subUniverseGenerated ? 30 : 0, 0);
+                } else if (viewMode === 'rotateZoom') {
+                    rotationAngle += 0.0015;
+                    zoomLevel += Math.sin(Date.now() * 0.0004) * 1;
+                    camera.position.x = Math.max(10, Math.min(500, zoomLevel)) * Math.sin(rotationAngle);
+                    camera.position.z = Math.max(10, Math.min(500, zoomLevel)) * Math.cos(rotationAngle);
+                    camera.position.y = Math.sin(Date.now() * 0.0004) * 10;
+                    camera.lookAt(0, subUniverseGenerated ? 30 : 0, 0);
+                } else if (viewMode === 'manual') {
+                    rotationAngle += manualRotationSpeed;
+                    camera.position.x = manualZoom * Math.sin(rotationAngle);
+                    camera.position.z = manualZoom * Math.cos(rotationAngle);
+                    camera.position.y = Math.sin(Date.now() * 0.0004) * 10;
+                    camera.lookAt(0, subUniverseGenerated ? 30 : 0, 0);
+                    console.log(`相机位置: x=${camera.position.x.toFixed(2)}, z=${camera.position.z.toFixed(2)}`);
+                } else if (viewMode === 'sphere360') {
+                    // 360度球体滚动视角
+                    sphereAngleX += sphereSpeed;
+                    sphereAngleY += sphereSpeed * 0.7; // Y轴滚动稍慢，创造更自然的球体运动
+                    
+                    // 球面坐标计算
+                    const x = sphereRadius * Math.sin(sphereAngleY) * Math.cos(sphereAngleX);
+                    const y = sphereRadius * Math.cos(sphereAngleY);
+                    const z = sphereRadius * Math.sin(sphereAngleY) * Math.sin(sphereAngleX);
+                    
+                    camera.position.set(x, y, z);
+                    camera.lookAt(0, subUniverseGenerated ? 30 : 0, 0);
+                    
+                    // 添加轻微的上下浮动，模拟球体滚动
+                    camera.position.y += Math.sin(Date.now() * 0.0003) * 5;
+                } else if (viewMode === 'free') {
+                    // 自由视角：鼠标控制，不自动更新相机位置
+                    // 相机位置由鼠标事件控制
+                    camera.lookAt(0, subUniverseGenerated ? 30 : 0, 0);
+                }
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // 鼠标滚轮缩放
+            let mouseWheelZoom = 80;
+            const minZoom = 10;
+            const maxZoom = 500;
+            
+            // 鼠标拖拽旋转
+            let isMouseDown = false;
+            let mouseX = 0;
+            let mouseY = 0;
+            let mouseRotationX = 0;
+            let mouseRotationY = 0;
+            
+            window.addEventListener('wheel', (event) => {
+                event.preventDefault();
+                
+                // 根据滚轮方向调整缩放
+                if (event.deltaY < 0) {
+                    mouseWheelZoom = Math.max(minZoom, mouseWheelZoom - 5);
+                } else {
+                    mouseWheelZoom = Math.min(maxZoom, mouseWheelZoom + 5);
+                }
+                
+                // 更新相机位置
+                if (viewMode === 'front' || viewMode === 'side') {
+                    camera.position.z = mouseWheelZoom;
+                } else if (viewMode === 'rotate' || viewMode === 'rotateZoom') {
+                    camera.position.x = mouseWheelZoom * Math.sin(rotationAngle);
+                    camera.position.z = mouseWheelZoom * Math.cos(rotationAngle);
+                } else if (viewMode === 'zoom') {
+                    camera.position.z = mouseWheelZoom;
+                } else if (viewMode === 'manual') {
+                    camera.position.x = mouseWheelZoom * Math.sin(rotationAngle);
+                    camera.position.z = mouseWheelZoom * Math.cos(rotationAngle);
+                } else if (viewMode === 'sphere360') {
+                    sphereRadius = mouseWheelZoom;
+                } else if (viewMode === 'free') {
+                    // 自由视角：更新相机位置
+                    const radius = mouseWheelZoom;
+                    camera.position.x = radius * Math.sin(mouseRotationY) * Math.cos(mouseRotationX);
+                    camera.position.y = radius * Math.sin(mouseRotationX);
+                    camera.position.z = radius * Math.cos(mouseRotationY) * Math.cos(mouseRotationX);
+                }
+                
+                // 更新信息显示
+                document.getElementById('info').textContent = `鼠标滚轮缩放: ${mouseWheelZoom.toFixed(0)}`;
+            });
+            
+            // 鼠标拖拽旋转事件
+            window.addEventListener('mousedown', (event) => {
+                isMouseDown = true;
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+            });
+            
+            window.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+            
+            window.addEventListener('mousemove', (event) => {
+                if (isMouseDown && viewMode === 'free') {
+                    const deltaX = event.clientX - mouseX;
+                    const deltaY = event.clientY - mouseY;
+                    
+                    mouseRotationX += deltaY * 0.01;
+                    mouseRotationY += deltaX * 0.01;
+                    
+                    // 限制垂直旋转角度
+                    mouseRotationX = Math.max(-Math.PI/2, Math.min(Math.PI/2, mouseRotationX));
+                    
+                    // 更新相机位置
+                    const radius = mouseWheelZoom;
+                    camera.position.x = radius * Math.sin(mouseRotationY) * Math.cos(mouseRotationX);
+                    camera.position.y = radius * Math.sin(mouseRotationX);
+                    camera.position.z = radius * Math.cos(mouseRotationY) * Math.cos(mouseRotationX);
+                    
+                    camera.lookAt(0, subUniverseGenerated ? 30 : 0, 0);
+                    
+                    mouseX = event.clientX;
+                    mouseY = event.clientY;
+                    
+                    // 更新信息显示
+                    document.getElementById('info').textContent = `自由视角: 旋转X=${(mouseRotationX * 180 / Math.PI).toFixed(1)}°, Y=${(mouseRotationY * 180 / Math.PI).toFixed(1)}°, 缩放=${mouseWheelZoom.toFixed(0)}`;
+                }
+            });
+
+            // 键盘快捷键
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'h' || event.key === 'H') {
+                    // H键：隐藏/显示控制面板
+                    toggleControls();
+                } else if (event.key === 'i' || event.key === 'I') {
+                    // I键：隐藏/显示使用说明
+                    toggleInstructions();
+                } else if (event.key === 'r' || event.key === 'R') {
+                    // R键：重置视角
+                    resetView();
+                }
+            });
+
+            // 窗口自适应
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // 初始化生成母宇宙
+            generateMotherUniverse();
+            updatePerformanceHint();
+            
+            console.log("场景加载完成！");
+        } catch (error) {
+            console.error("加载失败：", error);
+            document.getElementById('info').textContent = "加载失败，请检查控制台！";
+        }
+    </script>
+</body>
+</html>
